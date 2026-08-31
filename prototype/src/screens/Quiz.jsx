@@ -120,6 +120,8 @@ export default function Quiz({ step, setStep, name, setName, answers, setAnswers
                 <button
                   key={o}
                   className={`quiz-option${answers[q.id] === o ? ' is-picked' : ''}`}
+                  /* выбор виден только рамкой — скринридеру нужно сказать словами */
+                  aria-pressed={answers[q.id] === o}
                   onClick={() => pick(o)}
                 >
                   {o}
