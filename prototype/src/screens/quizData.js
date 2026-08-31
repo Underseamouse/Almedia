@@ -93,5 +93,5 @@ export const QUIZ = [
 export const UNLOCKED = [
   { id: 'disney', name: 'Disney solitaire', meta: '10-20 min per day', prize: '€2,180', cta: 'Play and Earn €2,180' },
   { id: 'dice', name: 'Dice dreams', meta: '40 min per day', prize: '€1,890', cta: 'Play and Earn €1,890' },
-  { id: 'candy', name: 'Candy crush', meta: '30-50 min per day', prize: '€3,410', cta: 'Play and Earn €2,180' },
+  { id: 'candy', name: 'Candy crush', meta: '30-50 min per day', prize: '€3,410', cta: 'Play and Earn €3,410' },
 ]

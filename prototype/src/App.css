@@ -196,3 +196,15 @@
   transition: opacity 0.15s ease;
 }
 .shell-login-link:hover { opacity: 0.8; }
+
+/* Зона нажатия до 44×44 без сдвига вёрстки: подложка растёт наружу,
+   геометрия самого элемента не меняется (WCAG 2.5.5, iOS HIG). */
+.shell-login-link { position: relative; }
+.shell-login-link::after {
+  content: '';
+  position: absolute;
+  left: 50%; top: 50%;
+  width: max(100%, 44px);
+  height: max(100%, 44px);
+  transform: translate(-50%, -50%);
+}

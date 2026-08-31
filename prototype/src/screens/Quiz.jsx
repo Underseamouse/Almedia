@@ -10,11 +10,13 @@ import './Quiz.css'
 */
 const fill = (t, name) => (t || '').replace('{name}', name || 'there')
 
-export default function Quiz({ onClose, onDone }) {
+/*
+  Ответы, имя и текущий шаг живут выше, в Offers: шторка при закрытии
+  размонтируется, и локальный стейт унёс бы с собой весь пройденный опросник.
+  Тап мимо листа — слишком лёгкое движение, чтобы стоить девяти шагов.
+*/
+export default function Quiz({ step, setStep, name, setName, answers, setAnswers, onClose, onDone }) {
   const inputRef = useRef(null)
-  const [step, setStep] = useState(0)
-  const [name, setName] = useState('')
-  const [answers, setAnswers] = useState({})
   const [analysing, setAnalysing] = useState(false)
   const timer = useRef(null)
 

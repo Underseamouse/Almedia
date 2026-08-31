@@ -13,6 +13,11 @@ import lottie from 'lottie-web'
      Day 1 → Day 2 → Day 3 встаёт навсегда. Поэтому дублируем таймером на
      длительность анимации (op/fr) — что бы ни случилось, onDone придёт один раз.
 */
+/* Глобальное CSS-правило гасит только animation/transition — lottie рисует
+   на своём rAF и про reduced-motion не знает. Показываем последний кадр. */
+const REDUCED = () =>
+  typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches
+
 export default function LottieCoins({ data, play, size = 56, onDone }) {
   const host = useRef(null)
   const anim = useRef(null)
@@ -53,6 +58,15 @@ export default function LottieCoins({ data, play, size = 56, onDone }) {
   useEffect(() => {
     if (!play || !anim.current || started.current) return
     started.current = true
+
+    // reduced-motion: сразу показываем финальный кадр и отдаём onDone,
+    // чтобы цепочка дней шла дальше, но без движения монет
+    if (REDUCED()) {
+      anim.current.goToAndStop(Math.max(0, (data.op - data.ip) - 1), true)
+      finish()
+      return
+    }
+
     anim.current.goToAndPlay(0, true)
     // страховка: длительность ролика + запас
     const ms = ((data.op - data.ip) / (data.fr || 24)) * 1000 + 350

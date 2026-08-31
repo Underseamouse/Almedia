@@ -52,3 +52,21 @@
   transition: opacity 0.15s ease;
 }
 .stephead-skip:hover { opacity: 1; }
+
+/* Зона нажатия до 44×44 без сдвига вёрстки: подложка растёт наружу,
+   геометрия самого элемента не меняется (WCAG 2.5.5, iOS HIG). */
+.stephead-back, .stephead-skip { position: relative; }
+.stephead-back::after,
+.stephead-skip::after {
+  content: '';
+  position: absolute;
+  left: 50%; top: 50%;
+  width: max(100%, 44px);
+  height: max(100%, 44px);
+  transform: translate(-50%, -50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* глобальное правило гасит только animation, transition остаётся */
+  .stephead-fill, .stephead-skip { transition-duration: 0.01ms; }
+}

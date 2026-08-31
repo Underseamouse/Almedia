@@ -20,9 +20,20 @@ import './Offers.css'
 */
 const ART = { disney, dice, candy }
 
+/* img-fx про prefers-reduced-motion не знает, а шейдер крутится непрерывно.
+   Для тех, кто просил меньше движения, оставляем статичную заглушку — смысл
+   «оффер закрыт» несёт текст на карточке, а не анимация. */
+const reducedMotion = () =>
+  typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches
+
 export default function Offers({ onDone }) {
   const [quizOpen, setQuizOpen] = useState(false)
   const [unlocked, setUnlocked] = useState(false)
+
+  // прогресс опросника — здесь, а не в Quiz: шторка размонтируется при закрытии
+  const [step, setStep] = useState(0)
+  const [name, setName] = useState('')
+  const [answers, setAnswers] = useState({})
 
   const finishQuiz = () => {
     setUnlocked(true)
@@ -79,7 +90,9 @@ export default function Offers({ onDone }) {
         {!unlocked && (
           <div className="offer-card">
             <div className="offer-hero">
-              <ImageGeneration preset="pixels-organic" strength={1} theme="dark" />
+              {reducedMotion()
+                ? <div className="offer-hero-static" aria-hidden="true" />
+                : <ImageGeneration preset="pixels-organic" strength={1} theme="dark" />}
             </div>
             <div className="offer-row offer-row--locked">
               <p className="offer-name offer-name--wrap">
@@ -124,7 +137,13 @@ export default function Offers({ onDone }) {
         тянулась бы по высоте контента, а не до низа экрана.
         top=82 — это 142 по фрейму минус статус-бар (Figma 293:8989). */}
     <Drawer open={quizOpen} top={82} showClose={false} onClose={() => setQuizOpen(false)}>
-      <Quiz onClose={() => setQuizOpen(false)} onDone={finishQuiz} />
+      <Quiz
+        step={step} setStep={setStep}
+        name={name} setName={setName}
+        answers={answers} setAnswers={setAnswers}
+        onClose={() => setQuizOpen(false)}
+        onDone={finishQuiz}
+      />
     </Drawer>
     </>
   )

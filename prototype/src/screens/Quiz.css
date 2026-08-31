@@ -14,6 +14,17 @@
 }
 .quiz-back { width: 24px; height: 24px; flex: 0 0 auto; display: grid; place-items: center; }
 .quiz-back:active { transform: scale(0.92); }
+/* Зона нажатия до 44×44 без сдвига вёрстки: подложка растёт наружу,
+   геометрия самого элемента не меняется (WCAG 2.5.5, iOS HIG). */
+.quiz-back { position: relative; }
+.quiz-back::after {
+  content: '';
+  position: absolute;
+  left: 50%; top: 50%;
+  width: max(100%, 44px);
+  height: max(100%, 44px);
+  transform: translate(-50%, -50%);
+}
 .quiz-track {
   flex: 1 1 auto;
   height: 8px;
@@ -98,7 +109,7 @@
   font-size: 16px;
   letter-spacing: 0.32px;
   outline: none;
-  transition: box-shadow 0.15s ease;
+  transition: border-color 0.15s ease;
 }
 .quiz-input::placeholder { color: #a9a9ca; }
 .quiz-input:focus { border-color: #4a4a6b; }

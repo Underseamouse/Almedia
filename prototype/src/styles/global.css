@@ -9,14 +9,20 @@ body {
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow: hidden;
+  /* На окне ниже ~914px кадр раньше сжимался, и вёрстка внутри ломалась:
+     карточка наезжала на заголовок, текст — на кнопку. Кадр — макет
+     фиксированного размера, поэтому он больше не сжимается, а страница
+     прокручивается. */
+  overflow: auto;
 }
 
 /* ---- Stage: центрирует «телефон» на странице ---- */
 .stage {
-  height: 100dvh;
+  min-height: 100dvh;
   display: grid;
   place-items: center;
+  /* safe: при контенте выше окна обычный center срезал бы верх кадра */
+  align-content: safe center;
   padding: 24px;
   perspective: 1600px;
 }
@@ -38,7 +44,7 @@ body {
   position: relative;
   width: var(--frame-w);
   height: var(--frame-h);
-  max-height: calc(100dvh - 40px);
+  flex: 0 0 auto;
   border-radius: 46px;
   background: var(--bg);
   overflow: hidden;
