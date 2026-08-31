@@ -1,122 +1,127 @@
-# Freecash — интерактивный прототип онбординга
+# Freecash — interactive onboarding prototype
 
-Живой прототип полного онбординг-флоу Freecash по НОВОМУ дизайну
-(карточная карусель). React + Vite. Кликается насквозь.
+A live prototype of the full Freecash onboarding flow in the NEW design
+(card carousel). React + Vite. Clickable end to end.
 
-**Демо:** https://underseamouse.github.io/Almedia/
+**Demo:** https://underseamouse.github.io/Almedia/
 
-> Учебная работа: тестовое задание на редизайн онбординга. Бренд, арт игр
-> и логотипы принадлежат правообладателям, используются только для показа
-> дизайн-решения и без коммерческой цели.
+> Study work: a design assignment on redesigning onboarding. The brand, game
+> artwork and logos belong to their respective owners and are used only to
+> present the design work, with no commercial purpose.
 
-## Запуск
+## Running it
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Сборка и публикация
+## Building and publishing
 
 ```bash
 npm run deploy
 ```
 
-Собирает и кладёт результат в `docs/` в корне репозитория — именно эту папку
-раздаёт GitHub Pages (Settings → Pages → Deploy from a branch → `main` /
-`/docs`). Пути в сборке относительные (`base: './'`), поэтому проект одинаково
-работает и с корня домена, и из подпапки вида `/Almedia/`.
+Builds and writes the result into `docs/` at the repository root — that is the
+folder GitHub Pages serves (Settings → Pages → Deploy from a branch → `main` /
+`/docs`). Build paths are relative (`base: './'`), so the project works the
+same from a domain root and from a subpath like `/Almedia/`.
 
 ```bash
 npm run single
 ```
 
-Собирает всё в один самодостаточный файл `freecash-onboarding.html` (~4 МБ):
-CSS, JS и все картинки вшиты внутрь через `data:` URI. Открывается с диска,
-без сервера — удобно приложить к письму. Единственная внешняя зависимость —
-шрифт Poppins с Google Fonts.
+Bundles everything into one self-contained `freecash-onboarding.html` (~4 MB):
+CSS, JS and every image are inlined as `data:` URIs. It opens straight from
+disk with no server — handy as an email attachment. The only external
+dependency left is the Poppins webfont from Google Fonts.
 
-## Флоу
+## Flow
 
 `loading → intro → [game · days · pay · gift] → signup → offers`
 
-«Log in» на интро уводит **сразу на signup**, минуя онбординг.
+"Log in" on the intro jumps **straight to signup**, skipping onboarding.
 
-Степпер — **4 шага по карточкам** (25 / 50 / 75 / 100 %). На signup степпера
-и кошелька нет — так в обновлённом макете 291-8361.
-Кнопка «Skip» справа от прогресс-бара прыгает сразу на signup.
+The stepper counts **4 card steps** (25 / 50 / 75 / 100 %). Signup has no
+stepper and no wallet — that is how the updated mockup 291-8361 has it. The
+"Skip" control to the right of the progress bar jumps straight to signup.
 
-| # | Экран | Figma | Что происходит |
+| # | Screen | Figma | What happens |
 |---|---|---|---|
-| — | Loading | 283-4239 | знак Freecash + вращающаяся зелёная дуга, 2 c |
-| — | Intro | 283-4407 | без изменений: лого, карусель баннеров, Trustpilot |
-| 1 | Game | 283-4649 | зелёное стекло, аватар игры **40px** (283-5342), match-3 4×4, монеты → кошелёк; подпись «Play on your own pace» центрирована в остатке между доской и нижней гранью |
-| 2 | Days | 291-7429 | синее стекло, 3 Lottie-стопки монет (Day 1→2→3, один раз) |
-| 3 | Pay | 291-7706 | золотое стекло `rgba(255,240,122,.75)`, три **ландшафтные** карты 69.65×63.55, группа наклонена 1.81°, карты 0 / +6.12 / −7.26°, зазор 14px (в Figma 7px стоит между *повёрнутыми* боксами) |
-| 4 | Gift | 291-8284 | стекло `rgba(51,51,77,.5)`, звёздное поле (lighten 54%, PNG, на всю карточку), медаль **222px** (top 14), конфетти (2 залпа), 3D-тилт |
-| — | Offers | 293-8540 | экран после логина: два оффера (см. ниже) |
-| — | Signup | 291-8361 | **без степпера и кошелька**: коллаж игр — реальная картинка из макета (left −54, top 74, 510×742, lighten 20%), Apple/Google/Facebook, разделитель, Continue with email |
+| — | Loading | 283-4239 | Freecash mark + rotating green arc, 2 s |
+| — | Intro | 283-4407 | unchanged: logo, banner carousel, Trustpilot |
+| 1 | Game | 283-4649 | green glass, game avatar **40px** (283-5342), 4×4 match-3, coins fly to the wallet; the "Play on your own pace" caption is centered in the space left between the board and the card's bottom edge |
+| 2 | Days | 291-7429 | blue glass, 3 Lottie coin stacks (Day 1→2→3, once) |
+| 3 | Pay | 291-7706 | gold glass `rgba(255,240,122,.75)`, three **landscape** cards 69.65×63.55, group tilted 1.81°, cards at 0 / +6.12 / −7.26°, 14px gap (Figma's 7px sits between the *rotated* boxes) |
+| 4 | Gift | 291-8284 | glass `rgba(51,51,77,.5)`, starfield (lighten 54%, PNG, full-bleed), medal **222px** (top 14), confetti (2 bursts), 3D tilt |
+| — | Offers | 293-8540 | post-login screen: two offers (see below) |
+| — | Signup | 291-8361 | **no stepper, no wallet**: game collage taken straight from the mockup (left −54, top 74, 510×742, lighten 20%), Apple/Google/Facebook, divider, Continue with email |
 
-**Баланс** живёт в `App`: `0 → €4.00` (игра) `→ €6.00` (стрик) `→ €16.00`
-(подарок). Значения сходятся с макетами: на days-экране €4 на старте,
-на gift/signup — €16 (+€10). После подарка под чипом встаёт
-«Ready to be withdrawn» с шиммером.
+**The balance** lives in `App`: `0 → €4.00` (game) `→ €6.00` (streak)
+`→ €16.00` (gift). The numbers match the mockups: €4 at the start of the days
+screen, €16 (+€10) on gift and signup. After the gift, a shimmering "Ready to
+be withdrawn" line slides out from under the chip.
 
-## Экран офферов (293-8540 → 293-11385)
+## Offers screen (293-8540 → 293-11385)
 
-Два оффера, оба 354×130 герой + строка + кнопка, radius 18,
-`rgba(255,255,255,.05)` фон и бордер.
+Two offers, each a 354×130 hero + a row + a button, radius 18,
+`rgba(255,255,255,.05)` background and border.
 
-Хедер по 293-11385: блок лого ровно **64** (лого 32 + py-16), зазор **8**,
-дальше контент с p-24 — заголовок садится на **96**, первая карточка на **156**,
-шаг между карточками **289** (265 + 24). После опросника заголовок меняется на
-`Your starter offers!` и подзаголовок уходит: объяснять уже нечего, офферы открыты.
+Header per 293-11385: the logo block is exactly **64** (32 logo + py-16), an
+**8** gap, then content with p-24 — which puts the heading at **96** and the
+first card at **156**, with **289** between cards (265 + 24). After the quiz
+the heading becomes `Your starter offers!` and the subheading disappears:
+there is nothing left to explain once the offers are open.
 
-Арт игр — 296-11653 / 11654 / 11655 (`src/assets/offers/{dice,disney,candy}.jpg`).
+Game artwork — 296-11653 / 11654 / 11655
+(`src/assets/offers/{dice,disney,candy}.jpg`).
 
-- **Оффер 1 «Disney solitaire»** (293-8635) — обёрнут в `border-beam`
-  (`colorVariant="sunset"`, `strength={1}`, `size="md"`): по обводке бежит
-  оранжево-красное свечение — поднято **поверх содержимого карточки**
-  (`z-index: 6` + `brightness={2.6}`, `saturation={1.6}`), иначе тонуло
-  в ярком арте. Важно: селекторы библиотеки `[data-beam="…"][data-active]`
-  имеют специфичность (0,2,1) — переопределять надо не ниже, иначе
-  проигрываешь по порядку подключения. Картинка (293-8922) показывается
-  сразу, пиксельную загрузку убрали. Индикатор прокрутки скрыт.
-- **Оффер 2 «Unlock more offers»** (293-8875) — картинка **никогда** не
-  раскрывается: шейдер Pixel Organic крутится постоянно и читается как
-  вечная загрузка, что поддерживает текст «ответь на вопросы, чтобы открыть».
+- **Offer 1, "Disney solitaire"** (293-8635) — wrapped in `border-beam`
+  (`colorVariant="sunset"`, `strength={1}`, `size="md"`): an orange-red glow
+  travels along the border, lifted **above the card's own content**
+  (`z-index: 6` plus `brightness={2.6}`, `saturation={1.6}`), otherwise it
+  drowns in the bright artwork. Worth knowing: the library's selectors
+  `[data-beam="…"][data-active]` have specificity (0,2,1) — an override must
+  beat that, or it loses on source order. The image (293-8922) shows
+  immediately; the pixel-loading effect was dropped here. The scroll indicator
+  is hidden.
+- **Offer 2, "Unlock more offers"** (293-8875) — the image **never** resolves:
+  the Pixel Organic shader runs forever and reads as a permanent loading
+  state, which backs up the copy "answer questions to unlock".
 
-Библиотеки: `border-beam@1.3`, `img-fx@0.5` (+ peer `three`).
+Libraries: `border-beam@1.3`, `img-fx@0.5` (+ peer `three`).
 
-## Опросник (шторка)
+## The quiz (drawer)
 
-«Answer now» на заблокированной карточке открывает **шторку** (Figma 293-11481):
-затемнение `rgba(0,0,0,.8)` + blur 3.35, лист `#141a26`, скруглённый верх 24,
-выезжает снизу по кривой `--ease-drawer`.
+"Answer now" on the locked card opens a **drawer** (Figma 293-11481): a
+`rgba(0,0,0,.8)` scrim with 3.35 blur, a `#141a26` sheet with a 24 rounded
+top, sliding up along the `--ease-drawer` curve.
 
-Лист живёт на `.screen-layer` — **рядом** с `.offers`, а не внутри: `.offers`
-скроллится, и вложенная в него шторка с `inset:0` растягивалась бы по высоте
-контента, а не до низа кадра («висела в воздухе»). `top={82}` — это 142 по
-фрейму минус статус-бар; низ шторки совпадает с низом `.shell-middle`, поэтому
-собственного отступа под home indicator у `.quiz` нет, иначе он считался дважды.
+The sheet lives on `.screen-layer` — **beside** `.offers`, not inside it.
+`.offers` scrolls, and a drawer nested in it with `inset:0` would stretch to
+the height of the content instead of reaching the bottom of the frame (it
+"floated"). `top={82}` is the mockup's 142 minus the status bar; the drawer's
+bottom coincides with the bottom of `.shell-middle`, which is why `.quiz`
+carries no home-indicator padding of its own — it would be counted twice.
 
-Раскладка шага — по 293-10197, замерено в кадре: хедер **72** (p-24, gap-24),
-заголовок отдельным блоком **84** (p-24, 24/500, lh 36), тело **464**
-(px-24 pb-16, gap-24; первым идёт разделитель `#2f3043` 50%), CTA на **620**
-(pb-24, кнопка 48). Варианты — 352 в ширину, **h-80**, gap-16, radius 12,
-`surface/container` + `border/default`, текст 16/500. «Prefer not to say» — h-44,
-16/600. Поле имени — 352×58 в обводке `border-beam` (sunset, `strength={1}`).
+Step layout follows 293-10197, measured in the frame: header **72** (p-24,
+gap-24), heading in its own block **84** (p-24, 24/500, lh 36), body **464**
+(px-24 pb-16, gap-24; a `#2f3043` 50% divider comes first), CTA at **620**
+(pb-24, 48 button). Options are 352 wide, **h-80**, gap-16, radius 12,
+`surface/container` + `border/default`, text 16/500. "Prefer not to say" is
+h-44, 16/600. The name field is 352×58 inside a `border-beam` outline (sunset,
+`strength={1}`).
 
-**Next не активна, пока шаг не отвечен**: на вводе нужен непустой текст, на
-вопросе — выбранный вариант. `statement` отвечать нечем, там кнопка живая.
-Пропуск необязательного вопроса остаётся за «Prefer not to say» — отдельным
-осознанным действием, а не случайным тапом по неактивной кнопке.
+**Next stays disabled until the step is answered**: the input needs non-empty
+text, a question needs a selected option. A `statement` has nothing to answer,
+so its button is live. Skipping an optional question stays with "Prefer not to
+say" — a deliberate separate action rather than a stray tap on a dead button.
 
-Внутри — опросник из **9 шагов** (`screens/quizData.js`, экраны Figma
-293-8923 / 9944 / 10159 / 10311 / 10733 / 10863 / 10449 / 10574 / 10995):
+Inside are **9 steps** (`screens/quizData.js`, Figma screens 293-8923 / 9944 /
+10159 / 10311 / 10733 / 10863 / 10449 / 10574 / 10995):
 
-1. `And who am I talking to?` — ввод имени (крестик вместо стрелки)
-2. `Nice to meet you, {name}!` — вводный экран
+1. `And who am I talking to?` — name input (close icon instead of a back arrow)
+2. `Nice to meet you, {name}!` — interstitial
 3. `What's your gender?`
 4. `[Got it, {name}.] How old are you?`
 5. `[Halfway there!] What kind of games do you enjoy most?`
@@ -125,146 +130,148 @@ CSS, JS и все картинки вшиты внутрь через `data:` UR
 8. `[Good to know.] What's your preferred way to cash out?`
 9. `[Last one, {name}!] How much do you want to earn today?`
 
-Имя подставляется в «бровки» через `{name}`. Дальше — **`Analysing your
-answers`** с орбом (293-11151) ровно **2 секунды**, после чего шторка
-уезжает вниз, а на экране офферов открываются все три (293-11385):
-Disney solitaire €2,180 / Dice dreams €1,890 / Candy crush €3,410.
+The name is interpolated into the eyebrows via `{name}`. Then comes
+**`Analysing your answers`** with an orb (293-11151) for exactly **2 seconds**,
+after which the drawer slides away and all three offers open on the offers
+screen (293-11385): Disney solitaire €2,180 / Dice dreams €1,890 /
+Candy crush €3,410.
 
-> Шторка анимируется **CSS-анимациями**, а не `transition` + флагом в стейте:
-> флагу нужен второй тик (rAF), который замирает при скрытой вкладке, и
-> шторка тогда появлялась мгновенно, без выезда.
+> The drawer animates with **CSS animations**, not `transition` plus a state
+> flag: a flag needs a second tick (rAF), which freezes on a hidden tab, and
+> the drawer would then appear instantly with no slide.
 
-## Как устроено
+## How it is built
 
-- **`components/GlassCard.jsx`** — стеклянная карточка 270×290, radius 24.
-  Подписи внутри карточек — без `text-shadow` (убрана по просьбе Said).
-  Рецепт из Figma: заливка `rgba(tint,.65)` + слой `#d9d9d9` в
-  `mix-blend-multiply` 80% + две размытые сферы по углам + `noise`
-  (SVG feTurbulence) + `backdrop-filter: blur`.
-- **`components/CardDeck.jsx`** — карусель: активная карточка по центру,
-  соседние со сдвигом 294px и наклоном ±4° (как в макете), плавный слайд.
-- **`components/LottieCoins.jsx`** + `assets/coins-day{1,2,3}.json` —
-  стопки монет. JSON'ы **сгенерированы** из присланного `icons8-coins.json`
-  (скрипт брал оттуда шейпы и градиенты монеты) под 3 разных количества:
-  2 / 4 / (3+6) монет. Играют один раз, по очереди, и замирают.
-  Холст квадратный 192×192, шаг 20 — стопки вписываются в бокс 60px
-  (23.8 / 36.3 / 48.8 px) и **не вылезают за границы** иконки.
-  Пунктирных коннекторов между днями нет (убраны по просьбе Said).
-  У всех трёх стопок **общая нижняя линия** (bottomCoinY=140 в холсте 192):
-  раньше каждая стопка центрировалась отдельно и они «плавали» по высоте.
-  Искры привязаны к верху своей стопки, свечение — к общей «земле».
-  **Подмены рендера нет:** монеты всё время рисует Lottie. Тёплое свечение
-  (`--ease-out`, 260ms) включается в тот же кадр, когда стопка начинает
-  падать, а искры всплывают по ходу падения со сдвигом 340–640ms и дальше
-  очень мягко «дышат» (3.2s). Раньше здесь был кроссфейд на статичный SVG —
-  из-за него монеты меняли размер и свечение появлялось рывком.
-- **`game/boardData.js` + `game/useGame.js`** — прежняя детерминированная
-  логика match-3, переведённая на 4×4 (клетка 48, gap 6) и новые иконки.
-  Обе сцены просчитаны: чистый матч и **ноль случайных троек** после
-  гравитации (проверено симуляцией).
-- **`components/BorderBeam.jsx`** — своё бегущее свечение поверх обводки
-  (кнопка на подарке). На экране офферов используется библиотечный
-  `border-beam` (sunset).
-- **`components/TiltCard.jsx`** — card hover tilt по сниппету Transitions.dev:
-  внешняя `.t-tilt` (плоская зона наведения) пишет `--tilt-rx/ry/gx/gy`,
-  внутренняя `.t-tilt-card` наклоняется, `.t-tilt-glare` — блик за курсором.
-  Используется на медали; блик там замаскирован мягким кругом, иначе на
-  прозрачном PNG была бы видна прямоугольная рамка.
+- **`components/GlassCard.jsx`** — the 270×290 glass card, radius 24. Captions
+  inside the cards carry no `text-shadow` (deliberately dropped). Recipe from
+  Figma: `rgba(tint,.65)` fill + a `#d9d9d9` layer in `mix-blend-multiply` 80%
+  + two blurred spheres in the corners + `noise` (SVG feTurbulence) +
+  `backdrop-filter: blur`.
+- **`components/CardDeck.jsx`** — the carousel: the active card sits centered,
+  its neighbours offset by 294px and tilted ±4° as in the mockup, with a smooth
+  slide between them.
+- **`components/LottieCoins.jsx`** + `assets/coins-day{1,2,3}.json` — the coin
+  stacks. The JSONs are **generated** from the supplied `icons8-coins.json`
+  (a script pulled the coin shapes and gradients out of it) for three different
+  counts: 2 / 4 / (3+6) coins. They play once, in sequence, then hold. The
+  canvas is a square 192×192 with a step of 20, so the stacks fit a 60px box
+  (23.8 / 36.3 / 48.8 px) and **never spill past** the icon bounds. There are no
+  dotted connectors between days (deliberately dropped). All three stacks share
+  **one baseline** (bottomCoinY=140 on a 192 canvas): previously each stack was
+  centered on its own and they floated at different heights. Sparks anchor to
+  the top of their own stack, the glow to the shared ground.
+  **There is no render swap:** Lottie draws the coins the whole time. The warm
+  glow (`--ease-out`, 260ms) comes up on the same frame the stack starts
+  falling, and sparks rise during the fall staggered 340–640ms, then breathe
+  very softly (3.2s). This used to cross-fade to a static SVG, which made the
+  coins change size and the glow appear with a jolt.
+- **`game/boardData.js` + `game/useGame.js`** — the original deterministic
+  match-3 logic, moved to 4×4 (48 cell, 6 gap) with the new icons. Both scenes
+  are precomputed: a clean match and **zero accidental triples** after gravity
+  (verified by simulation).
+- **`components/BorderBeam.jsx`** — a hand-rolled travelling border glow (the
+  button on the gift card). The offers screen uses the `border-beam` library
+  instead (sunset).
+- **`components/TiltCard.jsx`** — card hover tilt after the Transitions.dev
+  snippet: the outer `.t-tilt` (a flat hover area) writes `--tilt-rx/ry/gx/gy`,
+  the inner `.t-tilt-card` does the tilting, `.t-tilt-glare` is the highlight
+  trailing the cursor. Used on the medal, where the glare is masked by a soft
+  circle — on a transparent PNG its rectangular frame would otherwise show.
 
-## Аудит (замеры в кадре 402×874)
+## Audit (measured in the 402×874 frame)
 
-| Элемент | Получилось | Figma |
+| Element | Result | Figma |
 |---|---|---|
-| Хедер (стрелка+прогресс+Skip) | 60 / 140 | 60 / 140 ✓ |
-| Кошелёк-чип | 140 / 184 | 140 / 184 ✓ |
-| Карточка (все 4) | 242 / 532, 270×290, центр | 232 / 522, 270×290 |
-| Заголовок | 578 / 650 | 578 ✓ |
-| Подзаголовок | 660 / 708 | 660 / 708 ✓ |
-| Кнопка | 756 / 804 | 756 / 804 ✓ |
-| Signup: заголовок | 390 / 462 | ≈390 ✓ |
+| Header (back + progress + Skip) | 60 / 140 | 60 / 140 ✓ |
+| Wallet chip | 140 / 184 | 140 / 184 ✓ |
+| Card (all 4) | 242 / 532, 270×290, centered | 232 / 522, 270×290 |
+| Heading | 578 / 650 | 578 ✓ |
+| Subheading | 660 / 708 | 660 / 708 ✓ |
+| Button | 756 / 804 | 756 / 804 ✓ |
+| Signup: heading | 390 / 462 | ≈390 ✓ |
 
-Прогресс-бар: 25 / 50 / 75 / 100 %. Back проходит все шаги до intro,
-Skip уводит на signup — проверено.
+Progress bar: 25 / 50 / 75 / 100 %. Back walks every step down to the intro,
+Skip leads to signup — both verified.
 
-`useGame` не спавнит монеты, если карточка ушла из центра (`aliveRef`) —
-иначе при раннем Next они летели из-за левого края экрана.
+`useGame` does not spawn coins once the card has left the center (`aliveRef`) —
+otherwise an early Next sent them flying in from beyond the left edge.
 
-**Звёздное поле на карточке подарка.** В макете картинка 287×271 при
-карточке 270×290 — не достаёт до низа. Фон у неё непрозрачный тёмно-серый
-(не чистый чёрный), поэтому при `mix-blend-mode: lighten` её край давал
-видимый прямоугольный шов. Плюс JPEG добавлял блочные артефакты на тёмном.
-Держим PNG и растягиваем на всю карточку — подсветка равномерная, шва нет.
+**The starfield on the gift card.** In the mockup the image is 287×271 against
+a 270×290 card — it does not reach the bottom. Its background is an opaque dark
+grey rather than pure black, so under `mix-blend-mode: lighten` its edge left a
+visible rectangular seam, and the JPEG added blocking artifacts on the dark
+areas. The prototype keeps a PNG and stretches it full-bleed: the lift is even
+and there is no seam.
 
-**Флоу непрерывный и перезапускаемый.** «Continue with email» на signup
-вызывает `restart()`: обнуляются `cardIdx`, `balance`, `plus`, `note` и
-экран уходит на loading. Раньше состояние не сбрасывалось, поэтому после
-повторного «Get started» открывалась последняя карточка (медаль) —
-исправлено.
+**The flow is continuous and restartable.** "Continue with email" on signup
+calls `restart()`: `cardIdx`, `balance`, `plus` and `note` reset and the screen
+returns to loading. State used to persist, so a second "Get started" opened the
+last card (the medal) — fixed.
 
-«Ready to be withdrawn» показывается **только на карточке с медалью**
-(`phase === 'cards' && cardIdx === 3`); на остальных экранах и на signup
-строка уезжает под чип. Бегущее свечение (BorderBeam) с баланса убрано —
-у чипа остаётся только мягкий ореол из макета (Ellipse 1).
+"Ready to be withdrawn" appears **only on the medal card**
+(`phase === 'cards' && cardIdx === 3`); on every other screen, signup included,
+the line tucks back under the chip. The travelling glow (BorderBeam) is gone
+from the balance — the chip keeps only the soft halo from the mockup
+(Ellipse 1).
 
-## Осознанные отклонения от Figma
+## Deliberate departures from Figma
 
-1. **Карточки на 242 вместо 232** (+10px). *Почему:* в макете между чипом и
-   бейджем игры всего 22px, а строка «+€X» (которой в макете нет, но которую
-   ты просил) занимает 24px. Сдвиг на 10px убирает наложение.
-2. **Копирайт**: `Every task and action can turns into…` → `turns into…`
-   (грамматика источника) и узкий дефис → `—`.
-3. **Венки у Trustpilot** убраны (по просьбе Said).
-4. У каждой карточки **свой** заголовок/подзаголовок (Figma обновлён):
-   игра → «Play games you actually enjoy…», дни → «Play daily, keep your
-   streak…», банки → «Cash out your way…», подарок → «Your starter reward
-   is ready!».
+1. **Cards at 242 instead of 232** (+10px). *Why:* the mockup leaves only 22px
+   between the chip and the game badge, while the "+€X" line — absent from the
+   mockup but requested for the prototype — takes 24px. The 10px shift removes
+   the overlap.
+2. **Copy**: `Every task and action can turns into…` → `turns into…` (the
+   source's grammar), and a narrow hyphen → `—`.
+3. **The laurel wreaths** beside Trustpilot are dropped.
+4. Each card gets **its own** heading and subheading (Figma updated): game →
+   "Play games you actually enjoy…", days → "Play daily, keep your streak…",
+   payouts → "Cash out your way…", gift → "Your starter reward is ready!".
 
+## Animation audit
 
-## Аудит анимаций
+Run through the `animate` (authoring) and `improve-animations` (audit) skills.
 
-Прогнан по скиллам `animate` (сборка) и `improve-animations` (аудит).
-
-| Severity | Категория | Место | Находка | Статус |
+| Severity | Category | Location | Finding | Status |
 |---|---|---|---|---|
-| MEDIUM | Accessibility | `InfiniteCarousel.css` | бесконечная прокрутка без `prefers-reduced-motion` | **исправлено** — под reduced-motion останавливается |
-| LOW | Cohesion | `cards.css` | bounce-кривая инлайном мимо токенов | **исправлено** — вынесена в `--ease-spring` |
-| LOW | Performance | `StepHeader.css` | `transition: width` на прогресс-баре | **осознанно оставлено** — у заливки скруглённый торец и свечение, `scaleX` их растянет; переход 4 раза за флоу на одном 8px-элементе |
-| — | Physicality | `Board.css` `sparkle-pop` | `scale(0)` на старте | **исключение** — это искра взрыва, а не появление UI-элемента: частица имеет право зажигаться из ничего |
+| MEDIUM | Accessibility | `InfiniteCarousel.css` | infinite scroll with no `prefers-reduced-motion` | **fixed** — it stops under reduced motion |
+| LOW | Cohesion | `cards.css` | bounce curve inlined, bypassing the tokens | **fixed** — moved into `--ease-spring` |
+| LOW | Performance | `StepHeader.css` | `transition: width` on the progress bar | **kept deliberately** — the fill has a rounded cap and a glow that `scaleX` would stretch; the transition runs 4 times per flow on one 8px element |
+| — | Physicality | `Board.css` `sparkle-pop` | `scale(0)` at the start | **exempt** — this is a burst spark, not a UI element appearing: a particle is allowed to ignite from nothing |
 
-Остальное чисто: нет `transition: all`, нет `ease-in`, все кривые из токенов,
-анимируются только `transform`/`opacity`, `prefers-reduced-motion` покрыт
-во всех остальных файлах с анимациями.
+Everything else is clean: no `transition: all`, no `ease-in`, every curve comes
+from the tokens, only `transform`/`opacity` animate, and
+`prefers-reduced-motion` is covered in every other file that animates.
 
+## Three traps worth not hitting twice
 
-## Три ловушки, на которых стоит не спотыкаться снова
+**1. The balance counter on framer's `AnimatePresence`.** In this version the
+exit never finished and nodes piled up: the DOM held three `.wallet-amount`
+elements — `€0` at opacity 1 sitting over `€1.50` and `€4.00` at opacity 0. The
+widget showed a stale amount even though the state was correct, which the
+invisible `.wallet-sizer` made visible. The counter moved to CSS (`key={text}`
+plus `@keyframes wallet-amount-in`), and framer is gone from `Wallet.jsx`
+entirely.
 
-**1. Счётчик баланса на framer `AnimatePresence`.** В этой версии exit не
-доигрывал, узлы копились: в DOM висели три `.wallet-amount` — `€0` с
-opacity 1 поверх `€1.50` и `€4.00` с opacity 0. Виджет показывал устаревшую
-сумму, хотя стейт был верный (это было видно по невидимому `.wallet-sizer`).
-Счётчик переведён на CSS (`key={text}` + `@keyframes wallet-amount-in`),
-framer из `Wallet.jsx` убран полностью.
+**2. Lottie and a hidden tab.** Lottie runs on `requestAnimationFrame`, which
+freezes while `document.hidden`. The `complete` event then never arrives and
+the Day 1 → Day 2 → Day 3 chain stalls forever. `LottieCoins` adds a fallback
+timer computed from the clip's duration (`op/fr`), so `onDone` fires exactly
+once regardless of tab visibility.
 
-**2. Lottie и скрытая вкладка.** lottie крутится на `requestAnimationFrame`,
-который замораживается при `document.hidden`. Событие `complete` тогда не
-приходит и цепочка Day 1 → Day 2 → Day 3 встаёт навсегда. В `LottieCoins`
-добавлена страховка таймером на длительность ролика (`op/fr`): onDone
-приходит ровно один раз независимо от видимости вкладки.
+**3. `overflow: hidden` on `.shell` still makes a scroll container.** The frame
+has `scrollHeight` 1271 against `clientHeight` 874: the ambient glow sits at
+`top: -212px` with a height of 1281 and creates hidden overflow. While the quiz
+drawer lived inside `.offers` — a real scroller — that element absorbed
+`scrollIntoView`. The moment the drawer moved out, `autoFocus` on the name
+field scrolled `.shell` itself: the whole frame jumped up by 397px, the drawer
+went off-screen, and from the outside it looked like "the quiz doesn't start".
 
-**3. `overflow: hidden` на `.shell` — это всё ещё скролл-контейнер.** У кадра
-`scrollHeight` 1271 против `clientHeight` 874: ambient-свечение висит на
-`top: -212px` при высоте 1281 и создаёт скрытое переполнение. Пока шторка
-опросника жила внутри `.offers` (настоящего скроллера), тот забирал на себя
-`scrollIntoView`. Как только шторку вынесли наружу, `autoFocus` на поле имени
-доскроллил уже сам `.shell` — весь кадр уезжал вверх на 397px, шторка уходила
-за экран, и снаружи это выглядело как «опросник не запускается».
+Fixed from both ends: focus is now set manually with
+`focus({ preventScroll: true })`, and `.shell` moved to `overflow: clip` —
+unlike hidden, clip never creates a scroll container, so nothing can displace
+the frame, neither focus nor `scrollIntoView`.
 
-Починено с двух сторон: фокус ставится вручную через
-`focus({ preventScroll: true })`, а `.shell` переведён на `overflow: clip` —
-clip, в отличие от hidden, вообще не заводит скролл-контейнер, поэтому кадр
-больше не сдвинуть ни фокусом, ни `scrollIntoView`.
-
-Отсюда же правило проверки: `offsetTop` у элемента остаётся «правильным», даже
-когда предок прокручен, — сдвиг видно только в `getBoundingClientRect()` и
-в `scrollTop` предка. Сверять надо позицию относительно `.frame`, а не
-`offsetTop`.
+Which yields a rule for verifying: an element's `offsetTop` stays "correct"
+even when an ancestor is scrolled — the displacement shows up only in
+`getBoundingClientRect()` and in the ancestor's `scrollTop`. Check position
+relative to `.frame`, not by `offsetTop`.
