@@ -1,52 +1,57 @@
-# Онбординг-флоу — структура и LoFi
+# Onboarding flow — structure and lo-fi
 
-> **Три версии одновременно.** v2 — superseded (историческая, раздел внизу файла).
-> **v3 и v4 — оба живые варианты**, не один поверх другого: v3 держит квиз внутри
-> онбординга (пропускаемый), v4 выносит квиз из онбординга целиком, возвращая его
-> как bottom-drawer после логина. Экраны — в Figma, страницы **«Onboarding — LoFi v3»**
-> и **«Onboarding — LoFi v4 (quiz-as-drawer)»**.
+> **Three versions at once.** v2 is superseded (kept for history, in the
+> section at the bottom of this file). **v3 and v4 are both live options**, not
+> one layered over the other: v3 keeps the quiz inside onboarding (skippable),
+> v4 lifts the quiz out of onboarding entirely and brings it back as a bottom
+> drawer after login. The screens live in Figma, on the pages **"Onboarding —
+> LoFi v3"** and **"Onboarding — LoFi v4 (quiz-as-drawer)"**.
 
-Компоненты и токены — [design-system.md](design-system.md). Аудит компонентов —
-[audit.md](audit.md). Мудборд/дискавери — [research.md](research.md).
+Components and tokens: [design-system.md](design-system.md). Component audit:
+[audit.md](audit.md). Moodboard and discovery: [research.md](research.md).
 
 ---
 
-# v3 — квиз внутри онбординга, пропускаемый
+# v3 — the quiz inside onboarding, skippable
 
-## Зачем v3
+## Why v3 exists
 
-Голосовое сообщение Said, дословно: старый онбординг с длинным опросником **не решал
-проблему, которую должен был решать** — время до первой награды оставалось длинным,
-а сам процесс был недостаточно эмоциональным. v3 отвечает на это тремя структурными
-изменениями:
+The driving observation, verbatim: the old onboarding with its long
+questionnaire **did not solve the problem it was meant to solve** — the time to
+the first reward stayed long, and the process itself was not emotional enough.
+v3 answers that with three structural changes:
 
-1. **Trust + Welcome слиты в один экран** (было три) — минус шаг перед любой пользой.
-2. **Добавлен emotional/gamified экран** — сценарная демонстрация match-3 с монетами,
-   летящими в баланс, вместо сухого текста «мы платим деньги».
-3. **Квиз стал по-настоящему пропускаемым** — видимая ссылка «Skip» на **каждом**
-   вопросе, а не только в интро. Раньше пропустить можно было только весь опрос сразу
-   в одном месте; теперь — на любом шаге, в любой момент.
+1. **Trust and Welcome merged into one screen** (there were three) — one step
+   fewer before any value.
+2. **An emotional/gamified screen added** — a scripted match-3 demo with coins
+   flying into the balance, instead of dry copy saying "we pay money".
+3. **The quiz became genuinely skippable** — a visible "Skip" link on **every**
+   question, not only in the intro. Previously the only way out was to skip the
+   whole questionnaire at a single point; now it is available at any step, at
+   any moment.
 
-## Цель флоу (не изменилась)
+## Goal of the flow (unchanged)
 
-**Пользователь:** новый, из стора, о продукте не знает ничего, внимание короткое.
-**Одна цель:** первая полученная награда в первой сессии (PRD, primary metric).
-**Критерий успеха:** экран 17 (Reward Claimed) показан без необъяснённого шага и без
-нарушенного обещания.
+**The user:** new, from the store, knows nothing about the product, short
+attention span.
+**One goal:** the first reward actually received in the first session (PRD,
+primary metric).
+**Success criterion:** screen 17 (Reward Claimed) is reached with no
+unexplained step and no broken promise.
 
-## Схема
+## Diagram
 
 ```mermaid
 flowchart TD
     S0[0 Trust + Welcome] -->|Get started| S1[1 App Explainer + Earn Demo]
-    S0 -.->|Log in| LOGIN[/Login — вне рамок/]
+    S0 -.->|Log in| LOGIN[/Login — out of scope/]
     S1 -->|Next| S2[2 Cash-Out Explainer]
     S2 -->|Next| S3[3 Name Capture]
     S3 -->|Next| S4[4 Quiz Intro]
     S4 -->|Start earning| S5[5 Q1]
     S4 -->|Skip| S13[13 Reward Unlocked]
     S5 --> S6[Q2] --> S7[Q3] --> S8[Q4] --> S9[Q5] --> S10[Q6] --> S11[Q7]
-    S5 -.->|Skip, любой вопрос| S13
+    S5 -.->|Skip, any question| S13
     S6 -.->|Skip| S13
     S7 -.->|Skip| S13
     S8 -.->|Skip| S13
@@ -55,11 +60,11 @@ flowchart TD
     S11 -->|Next| S13
     S13 -->|Claim my reward| S14[14 Account Creation]
     S14 --> D1{Auth ok?}
-    D1 -->|да| D2{Квиз отвечен?}
-    D1 -->|нет| E1[Ошибка, остаёмся на 14]
+    D1 -->|yes| D2{Quiz answered?}
+    D1 -->|no| E1[Error, stay on 14]
     E1 --> S14
-    D2 -->|да| S15A[15a Matched Offers]
-    D2 -->|нет / skip| S15B[15b Your Starter Offer]
+    D2 -->|yes| S15A[15a Matched Offers]
+    D2 -->|no / skipped| S15B[15b Your Starter Offer]
     S15A -->|Start| S16[16 Offer Detail]
     S15B -->|Start| S16
     S16 -->|Install & Earn| APPSTORE[App Store]
@@ -68,44 +73,48 @@ flowchart TD
     S18 -->|Enable / Not now| S19[19 Main Earn Screen]
 ```
 
-## Мэппинг: что переиспользовано из v2, что построено заново
+## Mapping: what was reused from v2, what was built new
 
-Технический приём для скорости и согласованности — часть контента v2 не рисовалась
-заново, а дублировалась и правилась.
+A production shortcut for speed and consistency — some v2 content was not
+redrawn but duplicated and edited.
 
-| v3 экран | Источник | Правка |
+| v3 screen | Source | Edit |
 |---|---|---|
-| 0 Trust + Welcome | v2 `00` без изменений | статы: остался только Trustpilot (см. открытый вопрос) |
-| 3 Name Capture | v2 `02` | реальный Earnings Meter стартует здесь с 0.00 |
-| 4 Quiz Intro | v2 `03` | + видимая ссылка «Skip» |
-| 5–11 Q1–Q7 | v2 `04–10` | + «Skip» на каждом; CTA без суммы (`Next`, не `Next [+X zł]`) |
-| 13 Reward Unlocked | v2 `11` без изменений | приходит и с Q7, и со скипа |
-| 14 Account Creation | v2 `12` без изменений | — |
-| 16–19 | v2 `14–17` без изменений | Offer Detail, Reward Claimed, Notification, Main Earn |
-| **1 App Explainer + Earn Demo** | — | **новый**, самый важный экран v3 |
-| **2 Cash-Out Explainer** | контент был частью старого «Welcome» | **новый экран**, одна идея — один экран |
-| **15a Matched Offers** | v2 `13`, контент не менялся | переименован под форк |
-| **15b Your Starter Offer** | — | **новый**, честный fallback без ложной персонализации |
+| 0 Trust + Welcome | v2 `00`, unchanged | stats: only Trustpilot remains (see the open question) |
+| 3 Name Capture | v2 `02` | the real Earnings Meter starts here at 0.00 |
+| 4 Quiz Intro | v2 `03` | + a visible "Skip" link |
+| 5–11 Q1–Q7 | v2 `04–10` | + "Skip" on each; the CTA carries no amount (`Next`, not `Next [+X zł]`) |
+| 13 Reward Unlocked | v2 `11`, unchanged | reached both from Q7 and from a skip |
+| 14 Account Creation | v2 `12`, unchanged | — |
+| 16–19 | v2 `14–17`, unchanged | Offer Detail, Reward Claimed, Notification, Main Earn |
+| **1 App Explainer + Earn Demo** | — | **new**, the most important screen in v3 |
+| **2 Cash-Out Explainer** | the content used to sit inside the old "Welcome" | **a new screen**: one idea, one screen |
+| **15a Matched Offers** | v2 `13`, content unchanged | renamed for the fork |
+| **15b Your Starter Offer** | — | **new**, an honest fallback with no false personalisation |
 
-## Модель баланса — два разных виджета, не один
+## The balance model — two different widgets, not one
 
-Здесь я принял решение, которого нет в брифе буквально, и фиксирую его явно, а не
-молча: бриф показывает `🪙 zł 0.40` на экранах 1–4 одинаково (демо тикает 0→0.40,
-дальше держится плоско), а с квиза (5–11) сумма растёт до `40.00` — но конкретной
-формулы роста по вопросам бриф не даёт (пометка "e.g. 0.40 zł").
+This is a decision that the brief does not state literally, so it is recorded
+explicitly rather than made silently. The brief shows `🪙 zł 0.40` identically
+on screens 1–4 (the demo ticks 0→0.40, then holds flat), and from the quiz
+onward (5–11) the amount grows to `40.00` — but it gives no concrete
+per-question formula (it is annotated "e.g. 0.40 zł").
 
-**Решение:** это два разных виджета, а не один непрерывный счётчик.
+**Decision:** these are two different widgets, not one continuous counter.
 
-- **Демо-пилюля** (экраны 1–2) — маленькая, декоративная, показывает `0.00 → 0.40 zł`
-  как иллюстрацию «баланс живой». Не участвует в реальной экономике награды.
-- **Earnings Meter** (экраны 3–13) — настоящий трекер гарантированной награды,
-  стартует **заново с 0.00** на Name Capture, доходит до **40.00** на Reward Unlocked.
-  Соблюдает PRD R5: сумма фиксирована заранее, метр только раскрывает её по частям.
+- **The demo pill** (screens 1–2) — small, decorative, showing
+  `0.00 → 0.40 zł` as an illustration that the balance is alive. It plays no
+  part in the real reward economy.
+- **The Earnings Meter** (screens 3–13) — the real tracker of the guaranteed
+  reward. It starts **again from 0.00** on Name Capture and reaches **40.00** on
+  Reward Unlocked. This honours PRD R5: the amount is fixed in advance and the
+  meter only reveals it in parts.
 
-Числа по шагам (7 вопросов, старт 0.40 после демо-иллюзии, но реальный метр стартует с
-0.00 на Name Capture и растёт 8 шагами — имя тоже считается шагом, как в v2):
+The step-by-step numbers (7 questions, starting at 0.40 after the demo
+illusion, while the real meter starts at 0.00 on Name Capture and grows over 8
+steps — the name counts as a step, as it did in v2):
 
-| Экран | Meter amount |
+| Screen | Meter amount |
 |---|---|
 | 3 Name Capture → 4 Quiz Intro | 0.00 → 0.40 |
 | 5 Q1 | 0.40 |
@@ -117,223 +126,239 @@ flowchart TD
 | 11 Q7 | 34.34 |
 | 13 Reward Unlocked | 40.00 |
 
-Почему числа не круглые (не 5.00 шагом, как было в v2): в v3-шаблоне кнопка квиза
-больше не подписана суммой (`[ Next ]`, не `[ Next +5.00 zł ]` — сверено с ASCII
-брифа), поэтому не нужно, чтобы прирост был «маркетингово красивым» — только чтобы
-метр заметно рос. Это читается даже честнее старой модели: настоящие накопительные
-суммы в реальных продуктах редко бывают круглыми.
+Why the numbers are not round (not 5.00 a step, as in v2): in the v3 template
+the quiz button no longer carries the amount (`[ Next ]`, not
+`[ Next +5.00 zł ]` — checked against the brief's ASCII), so the increment does
+not need to look "marketing-pretty", only to make the meter visibly move. It
+also reads as more honest than the old model: real accumulated amounts in real
+products are rarely round.
 
-Это решение — открытый вопрос, вынесенный в Figma и ниже: не факт, что видимого
-разделения «демо vs реальный счётчик» тестировщику будет достаточно, чтобы не спутать
-0.40 демо с частью настоящих 40 zł.
+This decision is an open question, raised in Figma and below: it is not certain
+that a visible "demo vs real counter" split will be enough to stop a tester
+from confusing the 0.40 demo with part of the real 40 zł.
 
-## Экраны — логика по каждому
+## Screens — the reasoning for each
 
-Полные карточки-обоснования лежат прямо на холсте рядом с каждым экраном в Figma
-(жёлтая рамка = открытый вопрос, серая = закрытое решение). Здесь — конспект.
+The full rationale cards sit on the canvas beside each screen in Figma (a
+yellow frame marks an open question, a grey one a settled decision). This is the
+summary.
 
-| # | Экран | Почему этот экран здесь |
+| # | Screen | Why it is here |
 |---|---|---|
-| 0 | Trust + Welcome | 3 экрана до пользы были главным тормозом; слияние срезает шаг, доверие (Trustpilot) остаётся |
-| 1 | App Explainer + Earn Demo | Прямой ответ на «недостаточно эмоционально» — сценарный match-3, монеты летят в баланс, ввод не нужен (демо не может провалиться) |
-| 2 | Cash-Out Explainer | Одна идея — один экран (PRINCIPLES.md); баланс продолжается плоско с экрана 1 |
-| 3 | Name Capture | Дешёвая персонализация; здесь стартует настоящий Earnings Meter |
-| 4 | Quiz Intro | Реальная развилка: «Start earning» ИЛИ видимый «Skip» |
-| 5–11 | Q1–Q7 | «Skip» на каждом экране — можно выйти в любой момент, не только в начале |
-| 13 | Reward Unlocked | Достижим и с Q7, и со скипа — метр всегда доходит до полных 40.00 |
-| 14 | Account Creation | Не изменился; всё ещё не подтверждено с точки зрения fraud/compliance (PRD R7) |
-| 15a | Matched Offers | Только когда квиз реально отвечен — заголовок должен быть правдой |
-| 15b | Your Starter Offer | Честный fallback на скип — без claim «подобрано для тебя» без данных за ним |
-| 16–19 | Offer Detail, Reward Claimed, Notification, Main Earn | Не изменились от v2 |
+| 0 | Trust + Welcome | Three screens before any value was the main drag; merging cuts a step while the trust signal (Trustpilot) stays |
+| 1 | App Explainer + Earn Demo | The direct answer to "not emotional enough" — a scripted match-3, coins flying into the balance, no input required (a demo cannot fail) |
+| 2 | Cash-Out Explainer | One idea, one screen (PRINCIPLES.md); the balance carries on flat from screen 1 |
+| 3 | Name Capture | Cheap personalisation; the real Earnings Meter starts here |
+| 4 | Quiz Intro | A real fork: "Start earning" OR a visible "Skip" |
+| 5–11 | Q1–Q7 | "Skip" on every screen — you can leave at any point, not only at the start |
+| 13 | Reward Unlocked | Reachable from Q7 and from a skip alike — the meter always reaches the full 40.00 |
+| 14 | Account Creation | Unchanged; still unconfirmed from a fraud/compliance standpoint (PRD R7) |
+| 15a | Matched Offers | Only when the quiz was genuinely answered — the heading has to be true |
+| 15b | Your Starter Offer | An honest fallback for the skip path — no "picked for you" claim without data behind it |
+| 16–19 | Offer Detail, Reward Claimed, Notification, Main Earn | Unchanged from v2 |
 
-## Прототип
+## Prototype
 
-Не собирался в этом проходе — по запросу нужны были структура, аннотации и
-документация, кликабельность не запрашивалась. Экраны 3–11 уже названы одинаковыми
-слоями (`Meter amount`, `Meter track > Fill`, `CTA`, `Step counter`) — Smart Animate
-можно включить тем же способом, что в v2, отдельным шагом.
+Not built in this pass — the request was for structure, annotations and
+documentation; clickability was not asked for. Screens 3–11 already use
+identical layer names (`Meter amount`, `Meter track > Fill`, `CTA`,
+`Step counter`), so Smart Animate can be switched on the same way as in v2, as
+a separate step.
 
-## Открытые вопросы v3
+## Open questions for v3
 
-Из брифа (§6), плюс новые, возникшие при сборке — не решены молча:
+From the brief (§6), plus new ones that surfaced while building — none of them
+passed over silently:
 
-1. **Валюта** — zł зафиксирован везде в этой сборке (так велит бриф). Подтвердить, что
-   Almedia не хочет € для более широкой аудитории.
-2. **Стат «10M+ downloads»** — в этой сборке убран с экрана 0, остался только
-   Trustpilot (решение Said в этой сессии). Возврат — правка на одну строку.
-3. **Место Skip** — сделано как постоянная ссылка на каждом экране квиза (5–11),
-   не только в интро (4). Подтвердить, что это и есть намерение, а не единая кнопка
-   «пропустить всё» только на входе.
-4. **Экран 9 (вопрос про жанр игр)** — по-прежнему незасейненная заглушка, реальный
-   5-й вопрос в приложении не был зафиксирован в исследовании.
-5. **Fraud/business-валидация** (тянется из v2 PRD) — можно ли показывать >1 оффер
-   неверифицированным пользователям, и безопасна ли текущая позиция регистрации —
-   всё ещё не подтверждено.
-6. **Шов «демо-баланс vs реальный метр»** (решение этой сборки, не из брифа) —
-   см. раздел выше. Нужно тестом подтвердить, что это не путает пользователя.
+1. **Currency** — zł is used throughout this build (as the brief requires).
+   Confirm that Allmedia does not want € for a wider audience.
+2. **The "10M+ downloads" stat** — removed from screen 0 in this build, leaving
+   only Trustpilot (a decision taken during this pass). Restoring it is a
+   one-line edit.
+3. **Where Skip lives** — implemented as a persistent link on every quiz screen
+   (5–11), not only in the intro (4). Confirm that this is the intent, rather
+   than a single "skip everything" button at the entrance.
+4. **Screen 9 (the game-genre question)** — still an unseeded placeholder; the
+   real fifth question in the app was never captured during research.
+5. **Fraud/business validation** (carried over from the v2 PRD) — whether more
+   than one offer may be shown to unverified users, and whether the current
+   placement of registration is safe — still unconfirmed.
+6. **The "demo balance vs real meter" seam** (this build's decision, not the
+   brief's) — see the section above. Testing needs to confirm it does not
+   confuse users.
 
 ---
 
-# v4 — квиз вынесен из онбординга, возвращён как drawer после логина
+# v4 — the quiz lifted out of onboarding, returned as a drawer after login
 
-## Зачем v4
+## Why v4 exists
 
-После сборки v3 Said пришёл к следующему выводу (не из брифа, из собственного анализа
-готового v3): даже пропускаемый квиз **встроенный в онбординг** всё ещё делает сам
-флоу длинным на вид — семь вопросов видны как часть пути к первой награде, даже если
-формально их можно пропустить. При этом бизнес-value квиза (полный набор из 7 полей)
-терять нельзя.
+After v3 was built, a further conclusion followed — not from the brief, but
+from analysing the finished v3: even a skippable quiz **embedded in onboarding**
+still makes the flow look long. Seven questions read as part of the path to the
+first reward, even when they can formally be skipped. At the same time the
+quiz's business value — the full set of 7 fields — cannot be given up.
 
-**Решение v4:** разорвать связь между «получить гарантированную награду» и «пройти
-опрос» физически, а не только логически. Онбординг укорачивается до 5 экранов без
-единого вопроса; опросник возвращается **как было в оригинальном приложении** —
-bottom drawer, открывается с домашнего экрана после логина — но с полностью
-переосмысленным дизайном контейнера и с собственным небольшим вознаграждением,
-отдельным от гарантированных 40 zł.
+**The v4 decision:** break the link between "get the guaranteed reward" and
+"take the survey" physically, not just logically. Onboarding shrinks to 5
+screens with no questions at all; the questionnaire returns **the way it was in
+the original app** — a bottom drawer opened from the home screen after login —
+but with a fully reconsidered container design and its own small reward,
+separate from the guaranteed 40 zł.
 
-Это третий вариант, не замена v3 — обе страницы в Figma живые, для сравнения.
+This is a third option, not a replacement for v3 — both Figma pages stay live,
+for comparison.
 
-## Схема
+## Diagram
 
 ```mermaid
 flowchart TD
     S0[0 Trust + Welcome] -->|Get started| S1[1 App Explainer + Earn Demo]
     S1 -->|Next| S2[2 Cash-Out Explainer]
     S2 -->|Next| S3[3 Name Capture]
-    S3 -->|Next| S4[4 Reward Unlocked 40.00 — прямое раскрытие]
+    S3 -->|Next| S4[4 Reward Unlocked 40.00 — revealed directly]
     S4 -->|Claim my reward| S5[5 Account Creation]
-    S5 --> S6[6 Offers: 1 доступен + 2 locked]
-    S6 -->|Start на доступном| S7[7 Offer Detail]
+    S5 --> S6[6 Offers: 1 available + 2 locked]
+    S6 -->|Start on the available one| S7[7 Offer Detail]
     S7 -->|Install & Earn| APPSTORE[App Store]
     APPSTORE --> S8[8 Reward Claimed]
     S8 --> S9[9 Notification Permission]
-    S9 --> S10[10 Home — карточка «Answer a few quick questions» в ленте]
-    S10 -.->|тап по карточке| S11[11 Quiz Drawer — bottom sheet, mid-quiz]
-    S11 -.->|Skip в любой момент| S10
-    S11 -->|все 7 отвечены| S12[12 Quiz Drawer — completed, +15 zł]
-    S12 -->|See my offers| S10B[Home — locked-карточки раскрыты]
+    S9 --> S10[10 Home — an 'Answer a few quick questions' card in the feed]
+    S10 -.->|tap the card| S11[11 Quiz Drawer — bottom sheet, mid-quiz]
+    S11 -.->|Skip at any point| S10
+    S11 -->|all 7 answered| S12[12 Quiz Drawer — completed, +15 zł]
+    S12 -->|See my offers| S10B[Home — the locked cards open up]
 ```
 
-## Мэппинг: что переиспользовано из v3
+## Mapping: what was reused from v3
 
-| v4 экран | Источник | Правка |
+| v4 screen | Source | Edit |
 |---|---|---|
-| 0–2 (Trust, Demo, Cash-out) | v3 `00–02` без изменений | — |
-| 3 Name Capture | v3 `03` | счётчик шагов скрыт — считать больше не к чему |
-| 5 Account Creation | v3 `14` без изменений | — |
-| 7 Offer Detail, 8 Reward Claimed, 9 Notification | v3 `16–18` без изменений | — |
-| 10 Home | v3 `19` | + новая карточка-приглашение в ленте |
-| **4 Reward Unlocked** | — | **новый**, прямое раскрытие 40.00, без метра |
-| **6 Offers** | контент карточки из v3 `15b` | **новая форма**: 1 доступен + 2 locked |
-| **11 Quiz Drawer (mid-quiz)** | — | **новый**, центральный элемент v4 |
-| **12 Quiz Drawer (completed)** | — | **новый** |
+| 0–2 (Trust, Demo, Cash-out) | v3 `00–02`, unchanged | — |
+| 3 Name Capture | v3 `03` | the step counter is hidden — there is nothing left to count |
+| 5 Account Creation | v3 `14`, unchanged | — |
+| 7 Offer Detail, 8 Reward Claimed, 9 Notification | v3 `16–18`, unchanged | — |
+| 10 Home | v3 `19` | + a new invitation card in the feed |
+| **4 Reward Unlocked** | — | **new**, a direct reveal of 40.00 with no meter |
+| **6 Offers** | card content from v3 `15b` | **a new form**: 1 available + 2 locked |
+| **11 Quiz Drawer (mid-quiz)** | — | **new**, the centrepiece of v4 |
+| **12 Quiz Drawer (completed)** | — | **new** |
 
-## Модель баланса в v4 — проще, чем в v3
+## The balance model in v4 — simpler than in v3
 
-В v3 Earnings Meter рос по шагам квиза внутри онбординга. В v4 квиза в онбординге
-нет — метра тоже нет. Награда **40.00 zł раскрывается напрямую** на экране 4,
-одним разом, с той же формулировкой «unlocked — all yours», что и раньше, просто без
-предварительного накопления. Это не упрощение ради лени — это следствие: копить
-шаги было осмысленно, когда шаги = вопросы квиза; когда вопросов в онбординге не
-стало, копить стало не по чему.
+In v3 the Earnings Meter grew across the quiz steps inside onboarding. In v4
+there is no quiz in onboarding, so there is no meter either. The reward —
+**40.00 zł — is revealed directly** on screen 4, all at once, with the same
+"unlocked — all yours" wording as before, simply without the build-up. This is
+not simplification out of laziness but a consequence: accumulating steps made
+sense while the steps were quiz questions; once the questions left onboarding,
+there was nothing left to accumulate.
 
-Квиз-бонус (+15 zł) — **отдельная, самостоятельная сумма**, не часть 40.00. Начисляется
-целиком по завершении всех 7 вопросов в drawer, не по вопросу за раз (в отличие от
-v3, где метр рос с каждым ответом) — это сознательное отличие: drawer компактнее,
-и дробить маленькую сумму на 7 ещё более мелких плохо читается в интерфейсе такого
-размера.
+The quiz bonus (+15 zł) is **a separate, standalone amount**, not part of the
+40.00. It is granted in full once all 7 questions in the drawer are answered,
+not one question at a time (unlike v3, where the meter grew with every answer).
+That is a deliberate difference: the drawer is more compact, and splitting a
+small amount into seven smaller ones reads badly at that size.
 
-## Экран 6 (Offers) — главный guardrail этой версии
+## Screen 6 (Offers) — the main guardrail of this version
 
-Это самое рискованное место во всём v4: локальный соблазн — показать на locked-
-карточке заманчивую цифру («up to 7,468 zł 🔒»), чтобы сильнее мотивировать пройти
-квиз. **Сознательно этого не делаю.** Ровно так был устроен оригинальный баг Freecash:
-конкретное число показывается заранее, а по факту выдаётся другое (или не выдаётся
-вообще). Locked-карточка в этой сборке несёт только общий текст «Locked offer —
-Unlocks after a few quick questions», без единой цифры. Разблокировка означает
-появление настоящего оффера с настоящей суммой — не подмену одной обещанной цифры
-на другую.
+This is the riskiest point in all of v4. The local temptation is to put an
+enticing number on the locked card ("up to 7,468 zł 🔒") to push harder toward
+the quiz. **That is deliberately not done.** It is exactly how the original
+Freecash bug worked: a specific number is shown up front, and something else is
+delivered (or nothing at all). The locked card in this build carries only
+generic copy — "Locked offer — Unlocks after a few quick questions" — with no
+number anywhere. Unlocking means a real offer with a real amount appears, not
+one promised number swapped for another.
 
-## Quiz Drawer — редизайн контейнера
+## Quiz Drawer — redesigning the container
 
-Задача была явной: не как в оригинальном приложении. Оригинал — плоский прямоугольный
-drawer без характера. Новый вариант:
+The requirement was explicit: not like the original app. The original is a flat
+rectangular drawer with no character. The new version:
 
-- **28px радиус только на верхних углах** (крупнее, чем `rounded/04` из дизайн-системы
-  — здесь сознательное превышение шкалы: drawer — не карточка внутри экрана, а модальная
-  поверхность поверх него, ей позволена более выразительная геометрия).
-- **Drag handle** — полоска-индикатор, что лист можно тянуть/закрыть жестом, а не
-  просто модалка с крестиком.
-- **Точки прогресса** вместо полноэкранного progress bar — компактнее, уместнее в
-  ограниченной высоте листа.
-- **Scrim 45%** — домашний экран под ним остаётся узнаваемым (в т.ч. видна карточка-
-  приглашение, из которой лист был открыт — связь действия с результатом не теряется).
-- Внутри — те же компоненты, что в полноэкранном квизе v3 (`SelectorCard`, `CoinVoice`),
-  просто в компоновке, рассчитанной на лист, а не на весь экран.
-- **Skip остаётся доступен в любой момент** — тот же принцип «нет тупиков», что в v3,
-  перенесён в новый контейнер.
+- **A 28px radius on the top corners only** (larger than `rounded/04` from the
+  design system — a deliberate step outside the scale here: a drawer is not a
+  card inside a screen but a modal surface over it, and it is allowed more
+  expressive geometry).
+- **A drag handle** — a bar signalling that the sheet can be pulled and
+  dismissed by gesture, rather than being a modal with a close button.
+- **Progress dots** instead of a full-width progress bar — more compact, and
+  better suited to the sheet's limited height.
+- **A 45% scrim** — the home screen underneath stays recognisable, including the
+  invitation card the sheet was opened from, so the link between action and
+  result is not lost.
+- Inside are the same components as the full-screen v3 quiz (`SelectorCard`,
+  `CoinVoice`), simply laid out for a sheet rather than a whole screen.
+- **Skip stays available at any moment** — the same "no dead ends" principle as
+  v3, carried into the new container.
 
-## Экраны — логика по каждому
+## Screens — the reasoning for each
 
-Полные карточки-обоснования — на холсте в Figma рядом с каждым экраном. Конспект:
+The full rationale cards are on the Figma canvas beside each screen. Summary:
 
-| # | Экран | Почему так |
+| # | Screen | Why it is like this |
 |---|---|---|
-| 0–2 | Trust, Demo, Cash-out | Не изменились — слияние экранов уже решило проблему длины независимо от судьбы квиза |
-| 3 | Name Capture | Счётчик шагов убран — нет квиз-цепочки, которую он бы отсчитывал |
-| 4 | Reward Unlocked | Прямое раскрытие 40.00, без метра — копить стало не по чему |
-| 5 | Account Creation | Не изменился; тот же открытый вопрос по fraud/compliance (PRD R7) |
-| 6 | Offers | 1 доступен + 2 locked; **guardrail** — на locked никаких цифр |
-| 7–9 | Offer Detail, Reward Claimed, Notification | Не изменились |
-| 10 | Home | Новая карточка-приглашение в ленте — точка входа в квиз, пользователь открывает сам |
-| 11 | Quiz Drawer, mid-quiz | Современный bottom sheet вместо плоского оригинала; те же компоненты квиза, новый контейнер |
-| 12 | Quiz Drawer, completed | +15 zł — отдельный бонус, не часть гарантированных 40.00 |
+| 0–2 | Trust, Demo, Cash-out | Unchanged — merging the screens already solved the length problem, whatever happens to the quiz |
+| 3 | Name Capture | The step counter is removed — there is no quiz chain left for it to count |
+| 4 | Reward Unlocked | A direct reveal of 40.00 with no meter — there is nothing left to accumulate |
+| 5 | Account Creation | Unchanged; the same open fraud/compliance question (PRD R7) |
+| 6 | Offers | 1 available + 2 locked; **guardrail** — no numbers on the locked ones |
+| 7–9 | Offer Detail, Reward Claimed, Notification | Unchanged |
+| 10 | Home | A new invitation card in the feed — the entry point to the quiz, opened by the user |
+| 11 | Quiz Drawer, mid-quiz | A modern bottom sheet instead of the flat original; the same quiz components, a new container |
+| 12 | Quiz Drawer, completed | +15 zł — a separate bonus, not part of the guaranteed 40.00 |
 
-## Открытые вопросы v4
+## Open questions for v4
 
-1. **Триггер и стимул** — решены в разговоре с Said: тап-карточка в ленте (не auto-popup),
-   отдельный небольшой бонус +15 zł. Зафиксировано, не гадание.
-2. **7 вопросов, а не 3.** В реплике Said о копирайте карточки мелькало «3 вопроса» —
-   трактовал как формулировку промо-копии, а не решение сократить датасет (бизнес-value
-   просил опросник оставить целиком). Копия карточки сделана намеренно generic
-   («a few quick questions», без числа), чтобы не соврать интерфейсом, если реальное
-   число вопросов не 3. **Подтвердить это прочтение.**
-3. **Что происходит с 6 (Offers), если пользователь так и не откроет drawer.**
-   В этой сборке — ничего, locked-карточки остаются locked бессрочно. Не решено:
-   нужен ли повторный/более настойчивый призыв через N дней, или это осознанно
-   оставлено пользователю навсегда.
-4. **Resume vs reset при незавершённом квизе.** Если пользователь закрыл drawer на
-   вопросе 3 из 7 и вернулся позже — прогресс должен сохраняться (иначе Skip-в-любой-
-   момент из v3 перестаёт быть настоящим Skip, а становится «начни заново»). В этой
-   сборке не реализовано визуально (LoFi показывает только 2 статичных состояния),
-   но заложено как требование к взаимодействию.
-5. **Дублирует ли карточка-приглашение по смыслу существующие карточки офферов
-   в ленте.** Сейчас она визуально выделена (зелёная обводка), но стоит проверить на
-   реальном экране с 5–10 офферами, не потеряется ли.
-6. Все пункты 1, 4, 6, 7, 8, 9 из открытых вопросов v3 (валюта, формат чисел,
-   `up to X zł` рядом с гарантированными, вопрос №9 про жанр игр) **актуальны и для v4**
-   без изменений — эта версия наследует их, а не решает.
+1. **Trigger and incentive** — settled in discussion: a tappable card in the
+   feed (not an auto-popup), and a separate small bonus of +15 zł. Recorded, not
+   guessed.
+2. **Seven questions, not three.** A note about the card's copy mentioned
+   "3 questions" — read as promotional wording rather than a decision to shrink
+   the dataset (the business value asked for the questionnaire to stay whole).
+   The card's copy is deliberately generic ("a few quick questions", with no
+   number) so the interface does not lie if the real count is not 3.
+   **Confirm this reading.**
+3. **What happens to screen 6 (Offers) if the user never opens the drawer.** In
+   this build, nothing: the locked cards stay locked indefinitely. Unresolved:
+   whether a repeat or more insistent prompt is needed after N days, or whether
+   this is deliberately left to the user forever.
+4. **Resume vs reset on an unfinished quiz.** If the user closes the drawer on
+   question 3 of 7 and comes back later, progress should persist — otherwise
+   v3's skip-at-any-moment stops being a real Skip and becomes "start over".
+   Not implemented visually in this build (the lo-fi shows only 2 static
+   states), but recorded as an interaction requirement.
+5. **Whether the invitation card duplicates the existing offer cards in the
+   feed.** It is visually distinct today (a green outline), but this is worth
+   checking on a real screen with 5–10 offers to see whether it gets lost.
+6. Items 1, 4, 6, 7, 8 and 9 from v3's open questions (currency, number format,
+   `up to X zł` next to the guaranteed amount, question 9 about game genre)
+   **apply to v4 unchanged** — this version inherits them rather than resolving
+   them.
 
-# История — v2 (superseded)
+# History — v2 (superseded)
 
-Ниже — исходная документация v2, которая привела к выводу «квиз слишком жёсткий»
-(отсюда и появился бриф v3). Экраны этой версии остаются в Figma на странице
-**«Onboarding — LoFi v2 (superseded)»** как референс, не как рабочая версия.
+Below is the original v2 documentation, which led to the conclusion that the
+quiz was too rigid (and so produced the v3 brief). This version's screens stay
+in Figma on the page **"Onboarding — LoFi v2 (superseded)"** as a reference, not
+as a working version.
 
-## Цель флоу (v2)
+## Goal of the flow (v2)
 
-**Точки входа:** холодный запуск после установки (единственная в этом редизайне).
-Возврат из App Store после установки игры — это продолжение того же флоу, не вход.
+**Entry points:** a cold launch after install, the only one in this redesign.
+Returning from the App Store after installing a game is a continuation of the
+same flow, not an entry point.
 
-**Допущения** (взяты из брифа v2, не выдуманы здесь): награда 40.00 zł гарантирована и
-фиксирована; имя собирается до квиза; аккаунт создаётся после квиза, но до выдачи оффера.
+**Assumptions** (taken from the v2 brief, not invented here): the 40.00 zł
+reward is guaranteed and fixed; the name is collected before the quiz; the
+account is created after the quiz but before the offer is handed over.
 
-## Схема (v2)
+## Diagram (v2)
 
 ```mermaid
 flowchart TD
     S0[00 Trust Cold-Open] -->|See how it works| S1[01 Welcome]
-    S0 -.->|Already have an account?| LOGIN[/Login — не спроектирован/]
+    S0 -.->|Already have an account?| LOGIN[/Login — not designed/]
     S1 -->|Let's earn| S2[02 Name Capture]
     S1 -.->|Skip| S2
     S2 -->|Next +5.00| S3[03 Quiz Intro]
@@ -355,18 +380,19 @@ flowchart TD
     S4 -.->|back| S3
 ```
 
-## Модель прогресса (v2, пересобрана после правок Said)
+## Progress model (v2, rebuilt after the hand edits)
 
-В правках счётчик и метр разошлись: счётчик шёл `1/6 → 3/6 ×4 → 6/7 → 7/7`,
-метр застыл на `2.50 zł` на шести экранах, а кнопка обещала `+2.50 zł` при итоге
-`40.00 zł` — арифметика не сходилась ни в одном месте.
+In those edits the counter and the meter drifted apart: the counter ran
+`1/6 → 3/6 ×4 → 6/7 → 7/7`, the meter froze at `2.50 zł` across six screens,
+and the button promised `+2.50 zł` against a total of `40.00 zł` — the
+arithmetic did not add up anywhere.
 
-Пересобрано в единую модель: **8 шагов × 5.00 zł = ровно 40.00 zł**.
+Rebuilt into a single model: **8 steps × 5.00 zł = exactly 40.00 zł**.
 
-| Шаг | Экран | Счётчик | Метр «earned so far» | Кнопка |
+| Step | Screen | Counter | "Earned so far" meter | Button |
 |---|---|---|---|---|
 | 1 | 02 Name Capture | 1/8 | — | Next [+5.00 zł] |
-| — | 03 Quiz Intro | скрыт | 5.00 zł | Start earning |
+| — | 03 Quiz Intro | hidden | 5.00 zł | Start earning |
 | 2 | 04 Q1 Gender | 2/8 | 5.00 zł | Next [+5.00 zł] |
 | 3 | 05 Q2 Age | 3/8 | 10.00 zł | Next [+5.00 zł] |
 | 4 | 06 Q3 Cash-out | 4/8 | 15.00 zł | Next [+5.00 zł] |
@@ -374,90 +400,103 @@ flowchart TD
 | 6 | 08 Q5 Game type | 6/8 | 25.00 zł | Next [+5.00 zł] |
 | 7 | 09 Q6 Frequency | 7/8 | 30.00 zł | Next [+5.00 zł] |
 | 8 | 10 Q7 Earn goal | 8/8 | 35.00 zł | Next [+5.00 zł] |
-| — | 11 Reward Unlocked | скрыт | 40.00 zł | Claim my reward |
+| — | 11 Reward Unlocked | hidden | 40.00 zł | Claim my reward |
 
-## Прототип (v2)
+## Prototype (v2)
 
-Кликабельный прототип собран на странице «Onboarding — LoFi v2 (superseded)».
-Точка входа — `00 — Trust Cold-Open`, 33 связи.
+A clickable prototype is assembled on the "Onboarding — LoFi v2 (superseded)"
+page. Entry point `00 — Trust Cold-Open`, 33 connections.
 
-- Цепочка шагов 02 → 11 использует **Smart Animate** (0.45 s, ease-in-out) — метр и
-  полоса прогресса плавно растут между экранами. Слои названы одинаково на всех
-  экранах (`Header`, `Step counter`, `Meter amount`, `Meter track > Fill`, `CTA`):
-  Smart Animate сопоставляет слои по имени, иначе числа бы просто моргали.
-- Остальные переходы — **Push** (0.35 s), назад — Push вправо.
+- The chain from step 02 to 11 uses **Smart Animate** (0.45 s, ease-in-out), so
+  the meter and the progress bar grow smoothly between screens. Layers carry
+  identical names on every screen (`Header`, `Step counter`, `Meter amount`,
+  `Meter track > Fill`, `CTA`): Smart Animate matches layers by name, and
+  without that the numbers would simply blink.
+- The remaining transitions are **Push** (0.35 s), with back as a rightward
+  push.
 
-## Шаги (v2)
+## Steps (v2)
 
-| # | Экран | Зачем пользователю | Основное действие | Ошибки / ветки |
+| # | Screen | What the user gets | Primary action | Errors / branches |
 |---|---|---|---|---|
-| 00 | Trust Cold-Open | Понять, можно ли доверять | See how it works | — |
-| 01 | Welcome A | Понять, что это за продукт | Next | Skip → 03 |
-| 02 | Welcome B | Понять, как выводить деньги | Let's go | Skip → 03 |
-| 03 | Name Capture | Представиться | Next | Пустое поле → кнопка неактивна |
-| 04 | Quiz Intro | Понять, сколько займёт | Start earning | — |
-| 05–11 | Квиз Q1–Q7 | Ответить на вопрос | Next | Без выбора → кнопка неактивна; «Prefer not to say» — валидный ответ |
-| 12 | Reward Unlocked | Увидеть, что заработано | Claim my reward | — |
-| 13 | Account Creation | Забрать награду | Continue with … | Провайдер отказал / нет сети → баннер, остаёмся на 13 |
-| 14 | Matched Offers | Выбрать задание | Start на карточке | Нет офферов → показать только гарантированный |
-| 15 | Offer Detail | Понять условия | Install & Earn 40.00 zł | Возврат без установки → назад на 14 |
-| 16 | Reward Claimed | Убедиться, что заплатили | Continue | Награда не засчиталась → статус «в обработке», не пустой экран |
-| 17 | Notification Permission | Решить про уведомления | Enable notifications | Not now → 18 (не тупик) |
-| 18 | Main Earn | Увидеть баланс | — (дальше продукт) | Баланс не подгрузился → скелетон, не «0.00» |
+| 00 | Trust Cold-Open | Decide whether this can be trusted | See how it works | — |
+| 01 | Welcome A | Understand what the product is | Next | Skip → 03 |
+| 02 | Welcome B | Understand how to cash out | Let's go | Skip → 03 |
+| 03 | Name Capture | Introduce themselves | Next | Empty field → button disabled |
+| 04 | Quiz Intro | Understand how long it takes | Start earning | — |
+| 05–11 | Quiz Q1–Q7 | Answer a question | Next | No selection → button disabled; "Prefer not to say" is a valid answer |
+| 12 | Reward Unlocked | See what was earned | Claim my reward | — |
+| 13 | Account Creation | Collect the reward | Continue with … | Provider declined / no network → banner, stay on 13 |
+| 14 | Matched Offers | Pick a task | Start on a card | No offers → show the guaranteed one only |
+| 15 | Offer Detail | Understand the terms | Install & Earn 40.00 zł | Returns without installing → back to 14 |
+| 16 | Reward Claimed | Confirm they were paid | Continue | Reward not credited → a "processing" status, not an empty screen |
+| 17 | Notification Permission | Decide about notifications | Enable notifications | Not now → 18 (not a dead end) |
+| 18 | Main Earn | See the balance | — (the product takes over) | Balance not loaded → a skeleton, not "0.00" |
 
-## Состояния по экранам (v2, применимо и к v3)
+## Screen states (v2, applies to v3 as well)
 
-- **Name Capture** — пусто: кнопка неактивна, подсказка не нужна. Ошибок нет: любое имя валидно.
-- **Квиз** — пусто: `Next` неактивен, пока нет выбора. Загрузка не нужна: всё локально.
-- **Auth** — загрузка: состояние `Loading` на соц-кнопке (есть в дизайн-системе).
-  Ошибка: баннер над кнопками, кнопки остаются доступны.
-- **Offers** — загрузка: скелетоны карточек. Пусто (v2) / по умолчанию для skip-ветки (v3):
-  показываем гарантированный оффер и честный заголовок вместо «Picked for your goal».
-- **Reward Claimed** — успех: конфетти + сумма. Отложенный зачёт: «Reward is on its way»
-  вместо тишины.
-- **Main Earn** — загрузка: скелетон баланса. Никогда не показывать `0.00 zł` до ответа сервера.
+- **Name Capture** — empty: the button is disabled, no hint needed. There are no
+  errors: any name is valid.
+- **Quiz** — empty: `Next` stays disabled until something is selected. No
+  loading state needed: it is all local.
+- **Auth** — loading: the `Loading` state on the social button (present in the
+  design system). Error: a banner above the buttons, with the buttons still
+  available.
+- **Offers** — loading: card skeletons. Empty (v2) / the default for the skip
+  branch (v3): show the guaranteed offer and an honest heading instead of
+  "Picked for your goal".
+- **Reward Claimed** — success: confetti and the amount. Deferred crediting:
+  "Reward is on its way" instead of silence.
+- **Main Earn** — loading: a balance skeleton. Never show `0.00 zł` before the
+  server answers.
 
-## Аудит флоу (v2 — частично устарел, частично актуален)
+## Flow audit (v2 — partly stale, partly still current)
 
-**Длина пути.** В v2 до первой награды было 17 экранов; v3 добавляет ещё 2 (App
-Explainer + Earn Demo, Cash-Out Explainer отдельным экраном), но делает квиз реально
-пропускаемым — при активном использовании Skip путь может быть короче, чем в v2.
+**Path length.** In v2 there were 17 screens before the first reward; v3 adds
+two more (App Explainer + Earn Demo, and Cash-Out Explainer as its own screen)
+but makes the quiz genuinely skippable — with Skip used, the path can end up
+shorter than v2's.
 
-**Вопрос к обязательным полям — актуален и в v3.** По data model из build-brief §4 из
-7 вопросов **четыре — gender, age, in-app purchases, play frequency — помечены
-«Backend only»** и нигде в копирайте не всплывают. В v3 это менее болезненно: раз
-квиз пропускаем, пользователь, для которого это важно, просто не будет отвечать.
-Но для тех, кто квиз всё же проходит, вопрос остаётся открытым.
+**The question about mandatory fields — still current in v3.** By the data model
+in build brief §4, **four of the seven questions — gender, age, in-app
+purchases, play frequency — are marked "Backend only"** and never surface in the
+copy. In v3 this hurts less: since the quiz is skippable, a user who cares
+simply will not answer. But for those who do take it, the question stays open.
 
-**Тупиков нет — сохранено в v3.** Каждая ветка ошибки возвращает в поток.
+**No dead ends — preserved in v3.** Every error branch returns to the flow.
 
-**По одному CTA на экран** — соблюдено везде, кроме списков офферов и главного экрана,
-где действие принадлежит карточкам, а не экрану — осознанно, актуально и в v3.
+**One CTA per screen** — held everywhere except the offer lists and the main
+screen, where the action belongs to the cards rather than the screen. That is
+deliberate, and still true in v3.
 
-## Что изменилось в правках Said (v2 → его собственная правка) — и что с этим сделал v3-бриф
+## What changed in the hand edits (v2 → the revised v2) — and how the v3 brief answered it
 
-**Сработало и перешло в v3:**
-- Слияние экранов ради сокращения шагов — тот же принцип лёг в основу v3 (Trust+Welcome).
-- Возврат назад на каждом шаге квиза.
-- «Already have an account? Log in» на экране доверия.
+**Worked, and carried into v3:**
+- Merging screens to cut steps — the same principle became the basis of v3
+  (Trust+Welcome).
+- A back path on every quiz step.
+- "Already have an account? Log in" on the trust screen.
 
-**Решено v3-брифом:**
-- Два индикатора прогресса (`N/8` и метр) — v3 template не подписывает сумму на
-  кнопке квиза вовсе, но счётчик `N/8` остался в верхнем колонтитуле — тот же вопрос,
-  перенесён в открытые вопросы v3 (см. выше).
-- «Skip» на welcome вёл туда же, куда основная кнопка — v3 решает иначе: слитый
-  Trust+Welcome (экран 0) не имеет Skip вообще, Skip появляется только с квиза.
+**Resolved by the v3 brief:**
+- Two progress indicators (`N/8` and the meter) — the v3 template does not put
+  an amount on the quiz button at all, but the `N/8` counter stayed in the
+  header, so the same question moved into v3's open questions (above).
+- "Skip" on welcome led to the same place as the primary button — v3 solves it
+  differently: the merged Trust+Welcome (screen 0) has no Skip at all, and Skip
+  appears only from the quiz onward.
 
-**Не входило в объём v3-брифа, актуально по-прежнему:**
-- `up to 8,900 zł` за 8-минутный опрос рядом с гарантированными `40.00 zł` — риск
-  доверия, унаследован без изменений на экране 15a.
-- «~45 min daily» / «~8 min daily» — то же самое, не тронуто.
-- Q5 «Three in a row» рядом с «Puzzle» — пересекающиеся категории, не тронуто.
-- Формат чисел (`7,468 zł` вместо польского `7 468,00 zł`) — не тронуто.
+**Out of scope for the v3 brief, still current:**
+- `up to 8,900 zł` for an 8-minute survey sitting next to a guaranteed
+  `40.00 zł` — a trust risk, inherited unchanged on screen 15a.
+- "~45 min daily" / "~8 min daily" — the same thing, untouched.
+- Q5's "Three in a row" next to "Puzzle" — overlapping categories, untouched.
+- Number formatting (`7,468 zł` rather than the Polish `7 468,00 zł`) —
+  untouched.
 
-## Дальше
+## Next
 
-LoFi v3 — скелет для правок по структуре и копирайту. Экран 0 (Trust + Welcome) уже
-существует в hi-fi ([screens.md](screens.md)) и не меняется этим брифом. Следующий шаг —
-либо кликабельный прототип v3 (если понадобится), либо hi-fi для нового экрана 1
-(App Explainer + Earn Demo) — самого содержательного из добавленных.
+Lo-fi v3 is the skeleton for edits to structure and copy. Screen 0 (Trust +
+Welcome) already exists in hi-fi ([screens.md](screens.md)) and is not changed
+by this brief. The next step is either a clickable v3 prototype (if needed) or
+hi-fi for the new screen 1 (App Explainer + Earn Demo), the most substantial of
+the additions.

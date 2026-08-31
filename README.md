@@ -23,9 +23,6 @@ end to end, from the splash screen to the unlocked offers.
 | [storybook/](storybook/) | Components in isolation |
 | [screen/](screen/) | Early static mockup of the first screen |
 
-> The documents above are written in Russian; this README and
-> [prototype/README.md](prototype/README.md) are in English.
-
 ## The prototype
 
 The complete onboarding flow, built from the mockups and verified by

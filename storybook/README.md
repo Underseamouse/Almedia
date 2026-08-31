@@ -1,13 +1,13 @@
 # Freecash — component storybook
 
-Живая библиотека компонентов онбординга. Собрана по макету
-[«First screens»](https://www.figma.com/design/fJgAaPHYv49oF8MK6uMmcU/Untitled?node-id=155-4760)
-и по токенам из [../design-system.md](../design-system.md).
+A living library of the onboarding components. Built from the
+[“First screens”](https://www.figma.com/design/fJgAaPHYv49oF8MK6uMmcU/Untitled?node-id=155-4760)
+mockup and the tokens in [../design-system.md](../design-system.md).
 
-## Запуск
+## Running it
 
-Node в системе не было — он поставлен локально в `~/.local/node`, без sudo и без
-изменения системного PATH.
+Node was not present on this machine — it is installed locally in
+`~/.local/node`, without sudo and without touching the system PATH.
 
 ```bash
 export PATH="$HOME/.local/node/bin:$PATH"
@@ -15,137 +15,146 @@ cd projects/freecash-onboarding/storybook
 npm run storybook
 ```
 
-Откроется на http://localhost:6006. Остановить — Ctrl+C.
+It opens at http://localhost:6006. Ctrl+C to stop.
 
-Статичная сборка (папку можно открыть с диска или залить куда угодно):
+A static build (the folder opens from disk or uploads anywhere):
 
 ```bash
 npm run build-storybook
 ```
 
-## Что внутри
+## What is inside
 
-**Foundations** — пять навигируемых разделов вместо одного свитка:
+**Foundations** — five navigable sections instead of one long scroll:
 
-| Раздел | Что показывает |
+| Section | What it shows |
 |---|---|
-| `Overview` | Откуда взяты значения (PDF → Figma → `tokens.css` → страницы), правило «отклонение с причиной», карта разделов |
-| `Color` | Сырые шкалы · ~22 семантических алиаса · **вычисленный WCAG-контраст** каждой пары текст/поверхность |
-| `Typography` | Живой специмен всех 11 ступеней Poppins + ось из 4 весов |
-| `Space & Radius` | Именованная шкала радиусов, 4px-сетка отступов, высоты контролов, толщины обводок |
-| `Motion` | Длительности по дальности хода, 4 кривые, живой playground |
+| `Overview` | Where the values come from (PDF → Figma → `tokens.css` → the pages), the "a departure needs a reason" rule, and a map of the sections |
+| `Color` | Raw scales · ~22 semantic aliases · the **computed WCAG contrast** of every text/surface pair |
+| `Typography` | A live specimen of all 11 Poppins steps plus the 4-weight axis |
+| `Space & Radius` | The named radius scale, the 4px spacing grid, control heights, stroke widths |
+| `Motion` | Durations by travel distance, 4 curves, a live playground |
 
-Ключевое: страницы Foundations **читают значения вживую из `tokens.css`**
-(`getComputedStyle`) — ни один hex не переписан руками, документация не может
-разойтись с токенами. Контраст **считается**, а не оценивается на глаз.
-Хелперы — в `src/tokens/_docs.tsx`. Моушн-токены новые, в Figma их нет.
+The important part: the Foundations pages **read their values live from
+`tokens.css`** via `getComputedStyle` — not one hex is retyped by hand, so the
+documentation cannot drift from the tokens. Contrast is **computed**, not
+eyeballed. The helpers live in `src/tokens/_docs.tsx`. The motion tokens are
+new; Figma has none.
 
-**Effects** — четыре эффекта, снятые с референсов:
+**Effects** — four effects taken from references:
 
-| Компонент | Откуда | Что делает |
+| Component | Source | What it does |
 |---|---|---|
-| `BreathingOrb` | thinking-orbs, режим `ring` | Кольцо точек, дышит на месте и не вращается. Вращение читается как «работаю», дыхание — как «живой и жду»; сплэш висит меньше секунды, ему нужно второе |
-| `MonoOutline` | border-beam, вариант `mono` | Волосяная обводка: `travel` / `pulse` / `bloom`. Монохром намеренно ахроматичен — обрамляет, не перетягивая внимание с зелёного |
-| `PixelReveal` | img-fx | Картинка приходит сеткой цветов, взятых из неё самой, мерцает и растворяется по диагонали. Ожидание читается как наводка на резкость, а не как подмена |
-| `Ambient` | твой макет | Тёмная база, размытые пятна света и зерно. Зерно не декор: большие тёмные заливки бандятся на OLED, шум разбивает градиент |
+| `BreathingOrb` | thinking-orbs, `ring` mode | A ring of dots that breathes in place instead of rotating. Rotation reads as "working", breathing as "alive and waiting"; the splash lasts under a second, and it needs the second reading |
+| `MonoOutline` | border-beam, `mono` variant | A hairline outline: `travel` / `pulse` / `bloom`. The monochrome is deliberately achromatic — it frames without pulling attention off the green |
+| `PixelReveal` | img-fx | The image arrives as a grid of colours sampled from itself, shimmers, then dissolves diagonally. The wait reads as pulling into focus rather than as a substitution |
+| `Ambient` | the project's own mockup | A dark base, blurred pools of light and grain. The grain is not decoration: large dark fills band on OLED, and noise breaks the gradient up |
 
 **Components** — `Button`, `AwardStat` + `Laurel`, `EarningsMeter` +
-`AnimatedNumber`, `SelectorCard`, `CoinVoice`, `OfferCard`, `GlassCard`, `Logo`,
-и новые под финальный экран: `WalletPill` (золотой обод + halo, comp 214-9615)
-и `GameBoard` (доска 5×4 из 3D-эмодзи, comp 221-9710). У каждой story теперь
-есть описание с «почему».
+`AnimatedNumber`, `SelectorCard`, `CoinVoice`, `OfferCard`, `GlassCard`,
+`Logo`, plus the new ones for the final screen: `WalletPill` (gold rim and
+halo, comp 214-9615) and `GameBoard` (a 5×4 board of 3D emoji, comp 221-9710).
+Every story now carries a description with its "why".
 
-**Onboarding cards** — четыре value-prop карточки карусели (Figma 283-5134 /
-283-5260 / 291-7670 / 291-8062), перенесены **с логикой**, не картинками. Общий
-каркас `OnboardingCard` (фон + glow + подпись), в центре — свой герой:
+**Onboarding cards** — the four value-prop carousel cards (Figma 283-5134 /
+283-5260 / 291-7670 / 291-8062), ported **with their logic**, not as images. A
+shared `OnboardingCard` shell (background + glow + caption) holds a different
+hero in the middle of each:
 
-| Карточка | Герой | Логика |
+| Card | Hero | Logic |
 |---|---|---|
-| Play on your own pace | `MiniMatch3` | Заскриптованный цикл 4×4: своп → матч-3 → вспышка в цвет тайла → досыпка. Уважает reduced-motion |
-| Watch your balance grow | `CoinStack` | Движение из присланного Lottie, воспроизведённое **параметрически: число монет — проп** (баланс кастомный) |
-| Fast withdraw to | `PaymentLogos` | Логотипы VISA/amazon/PayPal — **PNG, выгруженные из Figma и закоммиченные** (ссылки Figma живут 7 дней, бренды нужны точно) |
-| Starter reward | `RewardBadge` | Розетка €10 — тоже закоммиченный PNG; сумма запечена в арт, т.к. в онбординге это фиксированное число |
+| Play on your own pace | `MiniMatch3` | A scripted 4×4 loop: swap → match-3 → a flash in the tile's colour → refill. Respects reduced motion |
+| Watch your balance grow | `CoinStack` | The motion from the supplied Lottie, reproduced **parametrically: the coin count is a prop**, so the balance is customisable |
+| Fast withdraw to | `PaymentLogos` | VISA/amazon/PayPal logos — **PNGs exported from Figma and committed** (Figma links live 7 days, and brands have to be exact) |
+| Starter reward | `RewardBadge` | The €10 rosette, also a committed PNG; the amount is baked into the artwork because in onboarding it is a fixed number |
 
-Фоны карточек **сняты пиксельно с отрендеренных фреймов** (каждый — цветная
-заливка под `#d9d9d9` multiply-скримом; вместо воспроизведения стопки взят
-итоговый композит). Ассеты — в `src/assets/onboarding/`, там же лежит исходный
-Lottie `coins-stack.lottie.json` как референс. Есть отдельные карточки, галерея
-«All four» и свайп-карусель.
+The card backgrounds are **sampled pixel-for-pixel from rendered frames** (each
+is a colour fill under a `#d9d9d9` multiply scrim; the final composite was taken
+rather than the stack reproduced). Assets live in `src/assets/onboarding/`,
+alongside the source Lottie `coins-stack.lottie.json` kept as a reference.
+There are individual cards, an "All four" gallery and a swipe carousel.
 
-**Screens** — два экрана потока:
-- `Game screen` — финальный визуал (comp 181-8798), собран **только из
-  библиотечных частей** (Ambient · Logo · WalletPill · GameBoard · Button) на
-  сетке токенов. Есть полный экран и разбор на составляющие (Anatomy).
-- `Trust cold-open` — экран доверия тремя битами: сплэш → заголовок →
-  доказательства и действие. Автоплей, пошаговый режим и все три рядом.
+**Screens** — two screens from the flow:
+- `Game screen` — the final visual (comp 181-8798), assembled **entirely from
+  library parts** (Ambient · Logo · WalletPill · GameBoard · Button) on the
+  token grid. Available as a full screen and as an Anatomy breakdown.
+- `Trust cold-open` — the trust screen in three beats: splash → heading → proof
+  and action. Autoplay, a step-by-step mode, and all three side by side.
 
-## Решения, которые стоит знать
+## Decisions worth knowing
 
-**Лавровый венок рисуется, а не лежит ассетом** — берёт золотой токен,
-масштабируется под любой блок и зеркалится сам.
+**The laurel wreath is drawn, not shipped as an asset** — it takes the gold
+token, scales to any block and mirrors itself.
 
-**Венок делает смысловую работу.** Он заимствует грамматику награды, поэтому
-цифра читается как присуждённая людьми, а не заявленная приложением. Это ровно
-задача первого экрана: весь редизайн существует потому, что обещаниям продукта
-перестали верить. Внутрь венка — только проверяемые публичные числа.
+**The wreath does semantic work.** It borrows the grammar of an award, so the
+number reads as granted by people rather than claimed by the app. That is
+precisely the job of the first screen: the whole redesign exists because the
+product's promises stopped being believed. Only verifiable public numbers go
+inside the wreath.
 
-**`OfferCard` разделяет гарантию и потолок.** Гарантированная награда пишется
-плоско («40.00 zł»), оценочная — всегда с «up to». Привычка показывать потолок
-как выплату — главный дефект, на который отвечает редизайн.
+**`OfferCard` separates the guarantee from the ceiling.** A guaranteed reward is
+written flat ("40.00 zł"); an estimated one always carries "up to". The habit of
+showing the ceiling as if it were the payout is the central defect the redesign
+answers.
 
-**Числа в метре одновременно твинятся и переворачиваются подигитно.** Твин
-показывает, насколько выросла сумма; переворот только изменившихся цифр
-оставляет остальные читаемыми. Порознь работает хуже: твин выглядит таблицей,
-переворот скрывает масштаб.
+**Numbers in the meter tween and flip digit by digit at the same time.** The
+tween shows how much the amount grew; flipping only the digits that changed
+keeps the rest readable. Either one alone works worse: the tween alone looks
+like a spreadsheet, the flip alone hides the scale.
 
-**Кнопка на нажатии уменьшается, а не меняет цвет.** На тёмной теме сдвиг цвета
-под пальцем почти не виден, сдвиг размера — виден.
+**The button shrinks on press instead of changing colour.** On a dark theme a
+colour shift under a finger is barely visible; a size shift is.
 
-**Всё уважает `prefers-reduced-motion`.** Анимация — оформление, а не сообщение.
+**Everything respects `prefers-reduced-motion`.** Animation is presentation, not
+message.
 
-## Реальные ассеты
+## Real assets
 
-`Logo` и `Laurel` — не приближения, а векторы, выгруженные из Figma
-(`120:4320` и `120:4182`) и переведённые в компоненты скриптом. Венок — 26
-путей; перерисовки теряли сужение к кончику, а именно оно читается как лавр,
-а не как случайная гроздь листьев.
+`Logo` and `Laurel` are not approximations but vectors exported from Figma
+(`120:4320` and `120:4182`) and turned into components by a script. The wreath
+is 26 paths; redrawing it lost the taper toward the tip, and that taper is
+exactly what reads as laurel rather than a random cluster of leaves.
 
-Цвет венка — `#FFF686` (Light Yellow 200), как в макете, **не** золотой токен:
-золото уходило в грязь на фоне зелёного свечения. Заведён как `--laurel`.
+The wreath's colour is `#FFF686` (Light Yellow 200), as in the mockup, and
+**not** the gold token: gold went muddy against the green glow. It is
+registered as `--laurel`.
 
-Обе иконки перекрашиваются пропсами, поэтому лого можно поставить на светлую
-подложку без перерисовки (`<Logo ink="var(--gb-900)" />`).
+Both icons recolour through props, so the logo can sit on a light background
+with no redraw (`<Logo ink="var(--gb-900)" />`).
 
-Плейсхолдер остался один — **артворки офферов**: сгенерированные SVG data-URI,
-чтобы пиксельный сэмплер оставался same-origin.
+One placeholder remains — **the offer artwork**: generated SVG data URIs, so the
+pixel sampler stays same-origin.
 
-## Button — сверен с твоей правкой
+## Button — reconciled with the edited component
 
-Взяты значения из компонента после правок: у каждой залитой кнопки появилась
-волосяная кромка своего семейства — у primary тёмно-зелёная `Main/800`
-(`#067544`), у secondary светло-серая `Gray Blue/100` (`#7d7d9e`). На почти
-чёрном фоне плоская заливка не имеет края и форма плывёт; кромка его даёт,
-не превращая кнопку в outline.
+The values are taken from the component after its edits: every filled button
+gained a hairline edge from its own family — dark green `Main/800` (`#067544`)
+on primary, light grey `Gray Blue/100` (`#7d7d9e`) on secondary. On a near-black
+background a flat fill has no edge and the shape drifts; the hairline gives it
+one without turning the button into an outline.
 
-Свечение под primary больше не проп — оно часть варианта, как в компоненте.
+The glow under primary is no longer a prop — it is part of the variant, as in
+the component.
 
-**Два расхождения внутри самого компонента**, которые я не стал переносить в код:
+**Two inconsistencies inside the component itself**, which were not carried into
+the code:
 
-- `Size=Small, Style=Primary, State=Focus` — кромка `#067544` + тень;
-  `Size=Medium` того же состояния — кромка `#01d676` 2px без тени.
-- `Size=Small, Style=Primary, State=Pressed` — кромка + тень;
-  `Size=Medium` — ни того, ни другого.
+- `Size=Small, Style=Primary, State=Focus` has a `#067544` edge plus a shadow,
+  while `Size=Medium` in the same state has a 2px `#01d676` edge and no shadow.
+- `Size=Small, Style=Primary, State=Pressed` has an edge and a shadow;
+  `Size=Medium` has neither.
 
-Похоже, правки дошли не до всех вариантов. В коде сделано по правилу
-«focus = зелёное кольцо 2px, pressed = только смена заливки» для обоих размеров —
-если задумано иначе, скажи, поправлю и код, и компонент.
+It looks as though the edits did not reach every variant. The code follows one
+rule — "focus = a 2px green ring, pressed = a fill change only" — for both
+sizes. If the intent was different, the code and the component can both be
+corrected.
 
-Ещё мелочь: у `Size=Medium, Style=Primary, State=Default` текст слоя —
-«See how it works» вместо «Button label». Для дефолта компонента лучше
-нейтральная подпись.
+A smaller point: on `Size=Medium, Style=Primary, State=Default` the layer text
+reads "See how it works" rather than "Button label". A component's default is
+better off with a neutral label.
 
-## Дальше
+## Next
 
-Из этих компонентов собираются остальные экраны потока
-(см. [../flow.md](../flow.md)). Порядок сборки — от квиза: `SelectorCard` +
-`EarningsMeter` + `CoinVoice` уже покрывают экраны 04–10.
+The rest of the flow's screens are assembled from these components (see
+[../flow.md](../flow.md)). The build order starts from the quiz: `SelectorCard`
++ `EarningsMeter` + `CoinVoice` already cover screens 04–10.

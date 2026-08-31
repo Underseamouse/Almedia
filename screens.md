@@ -1,69 +1,75 @@
-# Экраны hi-fi
+# Hi-fi screens
 
-Финальные экраны собираются на странице **«Screens»** в
+The final screens are assembled on the **"Screens"** page in
 https://www.figma.com/design/fJgAaPHYv49oF8MK6uMmcU/Untitled.
 
-Структура и копирайт — из [flow.md](flow.md) и LoFi.
-Токены и компоненты — из [design-system.md](design-system.md).
+Structure and copy come from [flow.md](flow.md) and the lo-fi pass. Tokens and
+components come from [design-system.md](design-system.md).
 
 ---
 
-## 00 — Trust Cold-Open
+## 00 — Trust cold-open
 
-Первый экран сессии. Задача — установить доверие **до** любой просьбы
-(PRD R1, паттерн 3 из [research.md](research.md), референс Ahead).
+The first screen of the session. Its job is to establish trust **before** any
+ask (PRD R1, pattern 3 from [research.md](research.md), Ahead as the
+reference).
 
-### Композиция
+### Composition
 
-Иерархия сверху вниз: кто мы → что обещаем → чем докажем → что сделать →
-запасной путь. Один фокус, одно действие.
+Hierarchy top to bottom: who we are → what we promise → what proves it → what
+to do → the fallback path. One focus, one action.
 
-- **Логотип** — компактный, вверху, не конкурирует с заголовком.
-- **Заголовок** `Heading lg/Bold` 40/60. Две строки: «Real people.» белым,
-  «Real payouts.» — брендовым зелёным. Цвет несёт смысл: субъект нейтрален,
-  выделено именно обещание выплаты.
-- **Подзаголовок** `Text lg/Regular`, `text/secondary` — снимает пафос заголовка
-  и уточняет источник оценки.
-- **Две стеклянные карточки** — доказательство. Только проверяемые числа
-  (Trustpilot 4.7/5 из 242,605 отзывов, 10M+ загрузок), как требует R1.
-- **Кнопка** — инстанс компонента `Button` (Size=Medium, Style=Primary).
-- **Ссылка входа** — для вернувшегося пользователя; тап-таргет доведён до 44px.
+- **Logo** — compact, at the top, not competing with the heading.
+- **Heading** `Heading lg/Bold` 40/60. Two lines: "Real people." in white,
+  "Real payouts." in the brand green. The colour carries meaning: the subject
+  stays neutral, the payout promise is what gets emphasised.
+- **Subheading** `Text lg/Regular`, `text/secondary` — takes the grandeur out
+  of the heading and names the source of the rating.
+- **Two glass cards** — the proof. Verifiable numbers only (Trustpilot 4.7/5
+  from 242,605 reviews, 10M+ downloads), as R1 requires.
+- **Button** — an instance of the `Button` component (Size=Medium,
+  Style=Primary).
+- **Log-in link** — for the returning user; the tap target is brought up
+  to 44px.
 
-### Свет
+### Light
 
-Три размытых пятна из палитры, а не декоративный градиент:
-`Main/500` вверху (за логотипом и заголовком), `Information/500` по центру
-(под карточками — даёт стеклу что преломлять), `Main/500` внизу под кнопкой
-(связывает CTA с композицией). Все — 0.12–0.22 прозрачности: тёмная база
-`surface/background` остаётся доминантой, как в оригинальном приложении.
+Three blurred pools drawn from the palette rather than a decorative gradient:
+`Main/500` at the top (behind the logo and heading), `Information/500` in the
+middle (under the cards — it gives the glass something to refract), `Main/500`
+at the bottom under the button (tying the CTA into the composition). All of
+them at 0.12–0.22 opacity, so the dark `surface/background` base stays
+dominant, as it is in the original app.
 
-### Контраст
+### Contrast
 
-| Элемент | Ratio | AA |
+| Element | Ratio | AA |
 |---|---|---|
-| Заголовок белый | 18.08 | ✓ |
-| Заголовок зелёный | 9.37 | ✓ |
-| Подзаголовок | 7.94 | ✓ |
-| «Log in» | 9.37 | ✓ |
+| Heading, white | 18.08 | ✓ |
+| Heading, green | 9.37 | ✓ |
+| Subheading | 7.94 | ✓ |
+| "Log in" | 9.37 | ✓ |
 
-### Осознанные отклонения от системы
+### Deliberate departures from the system
 
-1. **Стеклянные карточки — градиентная заливка и градиентная кромка.**
-   Токены системы описывают только сплошные цвета; эффект стекла на них
-   не выражается. Значения: белый 14% → 4.5% (заливка), белый 34% → 5%
-   (кромка, ловит свет по верхнему краю). Радиус, отступы, типографика
-   внутри карточек — токены.
-2. **Логотип — плейсхолдер.** Собран из фигур, трекинг 6% выходит за тип-рамп.
-   Слой так и назван: заменить на реальный бренд-ассет.
-3. **Тень под кнопкой** — зелёное свечение 30%. Эффект, не токен цвета.
+1. **The glass cards use a gradient fill and a gradient edge.** The system's
+   tokens describe solid colours only; a glass effect cannot be expressed in
+   them. The values: white 14% → 4.5% (fill), white 34% → 5% (edge, catching
+   light along the top). Radius, padding and the typography inside the cards
+   are all tokens.
+2. **The logo is a placeholder.** It is assembled from shapes and its 6%
+   tracking falls outside the type ramp. The layer is named accordingly:
+   replace with the real brand asset.
+3. **The shadow under the button** is a green glow at 30%. An effect, not a
+   colour token.
 
-Всё остальное — заливки, обводки, радиусы, отступы, высоты, текстовые стили —
-привязано к переменным и стилям.
+Everything else — fills, strokes, radii, spacing, heights, text styles — is
+bound to variables and styles.
 
-### Открыто
+### Open
 
-- Ссылка «Log in» ведёт на экран входа, которого в потоке нет
-  (см. открытый вопрос в [flow.md](flow.md)).
-- Тип-рамп даёт line-height 1.5 на всех размерах. Для дисплейного текста 40px
-  это заметно воздушно; современная практика — плотнее. Пока оставлено по системе,
-  но это кандидат на обсуждение с командой Freecash.
+- The "Log in" link points at a sign-in screen that does not exist in the flow
+  (see the open question in [flow.md](flow.md)).
+- The type ramp gives a line height of 1.5 at every size. For 40px display text
+  that reads noticeably airy; current practice is tighter. Left as the system
+  has it for now, but it is a candidate to raise with the Freecash team.
