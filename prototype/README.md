@@ -53,7 +53,7 @@ stepper and no wallet — that is how the updated mockup 291-8361 has it. The
 | 1 | Game | 283-4649 | green glass, game avatar **40px** (283-5342), 4×4 match-3, coins fly to the wallet; the "Play on your own pace" caption is centered in the space left between the board and the card's bottom edge |
 | 2 | Days | 291-7429 | blue glass, 3 Lottie coin stacks (Day 1→2→3, once) |
 | 3 | Pay | 291-7706 | gold glass `rgba(255,240,122,.75)`, three **landscape** cards 69.65×63.55, group tilted 1.81°, cards at 0 / +6.12 / −7.26°, 14px gap (Figma's 7px sits between the *rotated* boxes) |
-| 4 | Gift | 291-8284 | glass `rgba(51,51,77,.5)`, starfield (lighten 54%, PNG, full-bleed), medal **222px** (top 14), confetti (2 bursts), 3D tilt |
+| 4 | Gift | 291-8284 | glass `rgba(51,51,77,.5)`, starfield (lighten 54%, PNG, full-bleed), medal **222px** (top 14), confetti (2 bursts), 3D tilt. The CTA reads **"Claim reward and Sign Up"** here rather than "Next" — this button leaves onboarding for signup, and the label should say so |
 | — | Offers | 293-8540 | post-login screen: two offers (see below) |
 | — | Signup | 291-8361 | **no stepper, no wallet**: game collage taken straight from the mockup (left −54, top 74, 510×742, lighten 20%), Apple/Google/Facebook, divider, Continue with email |
 

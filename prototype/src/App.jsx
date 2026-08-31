@@ -80,6 +80,7 @@ export default function App() {
   )
 
   const step = cardIdx + 1
+  const ctaLabel = cardIdx === 3 ? 'Claim reward and Sign Up' : 'Next'
 
   const next = () => {
     if (phase === 'cards') {
@@ -183,8 +184,11 @@ export default function App() {
               </div>
 
               <div className="shell-cta">
+                {/* На карточке с медалью кнопка уже не «дальше по онбордингу»,
+                    а забрать награду и завести аккаунт — она ведёт на signup.
+                    key переигрывает label-pop, чтобы смена подписи читалась. */}
                 <button className={`btn-primary${cardIdx === 3 ? ' btn-glow' : ''}`} onClick={next}>
-                  <span className="btn-label btn-label-anim">Next</span>
+                  <span className="btn-label btn-label-anim" key={ctaLabel}>{ctaLabel}</span>
                   {cardIdx === 3 && (
                     <BorderBeam color="var(--primary-500)" hi="#c9ffe8" size="md" duration={4} />
                   )}
