@@ -1,0 +1,74 @@
+/*
+  Кошелёк — точно по Figma 214:9615:
+  bg primary/gray-blue/transparent rgba(20,21,35,.8), рамка primary/warning/600
+  #d19100 (низ 3px, остальные 1px), radius 16, padding 8×16, gap 16.
+  Никакой бегущей обводки — статичная янтарная рамка, как в макете.
+*/
+.wallet-chip {
+  position: relative;
+  z-index: 2;                     /* выше строки-ревила, чтобы прятать её под собой */
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 16px;
+  border-radius: 16px;
+  background: rgba(20, 21, 35, 0.8);
+  border: 1px solid #d19100;
+  border-bottom-width: 3px;
+  box-shadow: 0 6px 20px -8px rgba(209, 145, 0, 0.35);
+  will-change: transform;
+}
+
+.wallet-coins {
+  flex: 0 0 auto;
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+/* контейнер числа: ширина = ширине текущего текста (sizer в потоке) */
+.wallet-amount-slot {
+  position: relative;
+  display: inline-block;
+  height: 24px;
+  line-height: 24px;
+}
+.wallet-sizer,
+.wallet-amount {
+  font-family: 'Cascadia Mono', 'SF Mono', ui-monospace, 'Roboto Mono', monospace;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.32px;
+  line-height: 24px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.wallet-sizer { visibility: hidden; }
+.wallet-amount {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #fff;
+  will-change: transform, filter, opacity;
+  animation: wallet-amount-in 0.34s var(--ease-out) both;
+}
+/* number pop-in: blur + Y-bob */
+@keyframes wallet-amount-in {
+  from { opacity: 0; transform: translateY(11px); filter: blur(8px); }
+  to   { opacity: 1; transform: none;             filter: blur(0); }
+}
+
+/* «вздох» чипа при приёме монеты */
+.wallet-chip.is-pulse { animation: wallet-pulse 0.32s var(--ease-out); }
+@keyframes wallet-pulse {
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.09); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wallet-amount { animation: wallet-amount-fade 0.2s ease both; }
+  @keyframes wallet-amount-fade { from { opacity: 0; } to { opacity: 1; } }
+  .wallet-chip.is-pulse { animation: none; }
+}

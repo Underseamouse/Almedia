@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.DS_Store
+*.local
+.claude/
+
+# сборка прототипа: в репо едет только docs/ в корне
+prototype/dist/
+prototype/freecash-onboarding.html
+
+# собранный Storybook — не публикуем, пересобирается из исходников
+storybook/dist/

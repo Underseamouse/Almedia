@@ -1,0 +1,81 @@
+.wallet-block {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* мягкое золотое свечение под чипом (Figma ellipse 272:1649) */
+.wallet-block-glow {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 150px;
+  height: 60px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse, rgba(209,145,0,0.35), transparent 70%);
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+/* Слот строки под кошельком, 8px от виджета (Figma). Чип выше по z —
+   текст стартует ПОД ним (спрятан) и выезжает из-под виджета вниз. */
+.wallet-reveal-slot {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  height: 26px;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.wallet-reveal {
+  transform: translateY(-30px);     /* спрятан под виджетом (за чипом) */
+  opacity: 0;
+  /* выход — быстрее и плавно */
+  transition: transform 0.26s var(--ease-out), opacity 0.2s var(--ease-out);
+  white-space: nowrap;
+  line-height: 24px;
+}
+.wallet-reveal-slot.is-visible .wallet-reveal {
+  transform: translateY(0);
+  opacity: 1;
+  /* вход — плавнее */
+  transition: transform 0.46s var(--ease-out), opacity 0.4s var(--ease-out);
+}
+
+.wallet-plus {
+  font-family: 'Cascadia Mono', 'SF Mono', ui-monospace, 'Roboto Mono', monospace;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.32px;
+  color: #d19100;
+}
+
+/* «Ready to be withdrawn»: жёлтый (warning/500) + мягкий шиммер (warning/300) */
+.wallet-note {
+  font-family: 'Cascadia Mono', 'SF Mono', ui-monospace, 'Roboto Mono', monospace;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.32px;
+  background: linear-gradient(
+    100deg,
+    var(--warning-500) 35%,
+    var(--warning-300) 50%,
+    var(--warning-500) 65%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  filter: drop-shadow(0 0 5px rgba(255, 224, 102, 0.45));   /* glow warning/300 */
+  animation: wallet-note-shimmer 3.2s linear infinite;
+}
+@keyframes wallet-note-shimmer {
+  to { background-position: -220% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wallet-note { animation: none; }
+}

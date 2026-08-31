@@ -1,0 +1,37 @@
+.statusbar {
+  height: 60px;
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0 22px;
+  font-family: var(--font-sf);
+  position: relative;
+  z-index: 30;
+}
+.sb-left { display: flex; align-items: center; gap: 6px; padding-left: 14px; }
+.sb-time {
+  font-size: 16px; font-weight: 600; color: #fff;
+  letter-spacing: -0.3px; font-variant-numeric: tabular-nums;
+}
+.sb-loc { transform: translateY(-1px); }
+
+.sb-island {
+  width: 116px; height: 33px;
+  background: #000;
+  border-radius: 20px;
+  justify-self: center;
+}
+
+.sb-right { display: flex; align-items: center; justify-content: flex-end; gap: 6px; padding-right: 8px; }
+
+.sb-batt { display: flex; align-items: center; gap: 4px; }
+.sb-batt-num { font-size: 11px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
+.sb-batt-body {
+  width: 22px; height: 11px; border-radius: 3px;
+  border: 1px solid rgba(255,255,255,0.5);
+  padding: 1.5px;
+  position: relative;
+}
+.sb-batt-body i { display: block; height: 100%; border-radius: 1.5px; background: #fff; }
+.sb-batt-cap { width: 1.5px; height: 4px; border-radius: 0 1px 1px 0; background: rgba(255,255,255,0.5); }

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Freecash — Trust cold-open</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- The phone is a fixed 402 x 874 canvas, exactly as the Figma frame.
+     On a narrow viewport it fills the screen instead of being cropped. -->
+<div class="stage">
+  <div class="phone" id="phone">
+
+    <!-- ambient: the comp's blurred texture, colour-dodged over the navy -->
+    <div class="ambient" aria-hidden="true">
+      <div class="ambient__rot">
+        <div class="ambient__win"><img src="assets/ambient.png" alt="" /></div>
+      </div>
+    </div>
+
+    <!-- ─────────── screen 1 · splash ─────────── -->
+    <div class="splash" id="splash">
+      <div class="splash__mark">
+        <img class="splash__ring" src="assets/splash-ring.svg" alt="" />
+        <img class="splash__logo" src="assets/splash-logo.svg" alt="Freecash" />
+      </div>
+    </div>
+
+    <!-- ─────────── screen 2 · content ─────────── -->
+    <div class="screen" id="screen" hidden>
+
+      <!-- status bar · 402 x 60 -->
+      <div class="statusbar">
+        <div class="statusbar__side statusbar__side--left">
+          <span class="statusbar__time">9:41</span>
+          <svg class="statusbar__loc" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M13 1 1 6.2l5 1.9 1.9 5L13 1Z" fill="#fff"/>
+          </svg>
+        </div>
+        <div class="statusbar__island"></div>
+        <div class="statusbar__side statusbar__side--right">
+          <svg class="statusbar__ico" viewBox="0 0 18 14" fill="none" aria-hidden="true">
+            <rect x="0" y="9" width="3" height="5" rx="1" fill="#fff"/>
+            <rect x="5" y="6" width="3" height="8" rx="1" fill="#fff"/>
+            <rect x="10" y="3" width="3" height="11" rx="1" fill="#fff" opacity=".4"/>
+            <rect x="15" y="0" width="3" height="14" rx="1" fill="#fff" opacity=".4"/>
+          </svg>
+          <svg class="statusbar__ico" viewBox="0 0 18 14" fill="none" aria-hidden="true">
+            <path d="M6.5 8.5 4 11a2.8 2.8 0 1 0 4 4l2-2M11.5 5.5 14 3a2.8 2.8 0 1 1 4 4l-2 2"
+                  stroke="#fff" stroke-width="1.6" stroke-linecap="round" transform="translate(-1 -1) scale(.85)"/>
+          </svg>
+          <span class="statusbar__batt"><b>32</b></span>
+        </div>
+      </div>
+
+      <!-- ── section · logo · 402 x 80 ── -->
+      <section class="logo reveal" style="--d:0ms">
+        <img class="logo__mark" src="assets/logo-mark.svg" alt="" />
+        <img class="logo__word" src="assets/logo-word.svg" alt="Freecash" />
+      </section>
+
+      <!-- ── section · title + subtitle · 402 x 154 ── -->
+      <section class="title">
+        <h1 class="title__h reveal" style="--d:90ms">Hey! I'm here to help you earn real cash</h1>
+        <p class="title__sub reveal" style="--d:200ms">Rated by people who actually got paid.</p>
+      </section>
+
+      <!-- ── section · trust stats · 402 x 288 ── -->
+      <section class="stats">
+        <div class="stat reveal" style="--d:320ms">
+          <img class="stat__wreath stat__wreath--l" src="assets/laurel.svg" alt="" />
+          <div class="stat__body">
+            <div class="stat__group">
+              <p class="stat__rating">Rated 4.7/5</p>
+              <img class="stat__stars" src="assets/stars.svg" alt="4.7 out of 5" />
+            </div>
+            <div class="stat__group stat__group--tight">
+              <p class="stat__count">Based on 242,605 reviews</p>
+              <img class="stat__brand" src="assets/trustpilot.svg" alt="Trustpilot" />
+            </div>
+          </div>
+          <img class="stat__wreath stat__wreath--r" src="assets/laurel.svg" alt="" />
+        </div>
+
+        <div class="stat reveal" style="--d:440ms">
+          <img class="stat__wreath stat__wreath--l" src="assets/laurel.svg" alt="" />
+          <div class="stat__body stat__body--tight">
+            <p class="stat__big">10,000,000 +</p>
+            <p class="stat__label">Downloads<br />on Google Play</p>
+          </div>
+          <img class="stat__wreath stat__wreath--r" src="assets/laurel.svg" alt="" />
+        </div>
+      </section>
+
+      <div class="spacer"></div>
+
+      <!-- ── section · primary action ── -->
+      <section class="action reveal" style="--d:560ms">
+        <button class="btn" type="button">Let's go</button>
+        <p class="login">
+          <span class="login__q">Already have an account?</span>
+          <a class="login__a" href="#">Log in</a>
+        </p>
+      </section>
+
+      <div class="home"><span></span></div>
+    </div>
+
+  </div>
+</div>
+
+<button class="replay" id="replay" type="button" title="Replay from the splash">Replay</button>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+/*
+  Design tokens — источник: projects/freecash-onboarding/design-system.md
+  (маппинг PDF → Figma, снятый с freecash.com). Значения не заводятся здесь
+  «из головы»: всё, что ниже, уже зафиксировано в главном файле темы.
+*/
+:root {
+  /* Surface */
+  --bg: #141523;               /* surface/background — Primary/Gray Blue/900 */
+  --surface-container: #252539; /* surface/container — Gray Blue/500 */
+  --surface-input: #2f3043;     /* surface/input — Gray Blue/400 */
+  --elevated-border: #525266;   /* surface/elevated-border — Gray Blue/200 */
+
+  /* Brand / action */
+  --action-primary: #01d676;    /* action/primary */
+  --primary-800: #067544;       /* кромка кнопки (border-b) */
+  --action-secondary: #525266;
+
+  /* Text */
+  --text-primary: #ffffff;
+  --text-secondary: #a9a9ca;
+  --text-on-primary: #141523;
+
+  /* Special */
+  --gold: #f5b21a;
+  --gold-hi: #ffd75e;
+  --gold-lo: #d98b0f;
+
+  /* Warning scale (для beam/shimmer/glow) */
+  --warning-300: #ffe066;
+  --warning-400: #ffd633;
+  --warning-500: #ffc700;
+  --warning-600: #d19100;
+  /* Primary scale */
+  --primary-400: #34e090;
+  --primary-500: #01d676;
+
+  /* Radius (Freecash rounded/*) */
+  --r-01: 4px;
+  --r-02: 8px;   /* кнопки */
+  --r-03: 12px;
+  --r-04: 16px;
+  --r-07: 32px;
+  --r-full: 999px;
+
+  /* Spacing (base 4) */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-5: 20px; --s-6: 24px; --s-8: 32px; --s-10: 40px;
+
+  /* Control heights */
+  --h-sm: 38px; --h-md: 44px; --h-lg: 48px;
+
+  /* Easing (сильные кривые, не встроенные) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);   /* лёгкий перелёт для «пружинных» появлений */
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);      /* iOS-кривая для шторки */
+
+  --font: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sf: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+
+  /* Device */
+  --frame-w: 402px;
+  --frame-h: 874px;
+}
+
+/* Угол для BorderBeam (крутящееся свечение обводки) */
+@property --bb-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}

@@ -1,0 +1,41 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="100.2" height="95.2" viewBox="0 0 100.2 95.2" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame">
+<g id="Ellipse 6" filter="url(#filter0_f_0_113)">
+<ellipse cx="50.1" cy="47.6" rx="14" ry="11.5" fill="#FDD801"/>
+</g>
+<path id="Vector" d="M64.1 47.4662H36.1V52.2523H64.1V47.4662Z" fill="url(#paint0_linear_0_113)"/>
+<g id="Group">
+<path id="Vector_2" d="M50.1 59.6C57.832 59.6 64.1 56.466 64.1 52.6C64.1 48.734 57.832 45.6 50.1 45.6C42.368 45.6 36.1 48.734 36.1 52.6C36.1 56.466 42.368 59.6 50.1 59.6Z" fill="url(#paint1_linear_0_113)"/>
+</g>
+<path id="Vector_3" d="M64.1 43.265H36.1C36.1 44.0817 36.1 47.115 36.1 47.9317C36.1 51.7817 42.4 54.9317 50.1 54.9317C57.8 54.9317 64.1 51.7817 64.1 47.9317C64.1 47.115 64.1 44.0817 64.1 43.265Z" fill="url(#paint2_linear_0_113)"/>
+<path id="Vector_4" d="M50.1 50.265C57.832 50.265 64.1 47.131 64.1 43.265C64.1 39.399 57.832 36.265 50.1 36.265C42.368 36.265 36.1 39.399 36.1 43.265C36.1 47.131 42.368 50.265 50.1 50.265Z" fill="url(#paint3_linear_0_113)"/>
+<path id="Vector_5" d="M50.1 47.9333C55.899 47.9333 60.6 45.844 60.6 43.2667C60.6 40.6893 55.899 38.6 50.1 38.6C44.301 38.6 39.6 40.6893 39.6 43.2667C39.6 45.844 44.301 47.9333 50.1 47.9333Z" fill="#FFC800"/>
+<path id="Vector_6" d="M38.9093 31.1L36.1833 32.2591L37.7288 35.8937L40.4548 34.7346L38.9093 31.1Z" fill="#F5BC00"/>
+<path id="Vector_7" d="M33.68 40.4644L30.5214 37.9757L32.6532 35.7372L35.8119 38.2259L33.68 40.4644Z" fill="#F5BC00"/>
+</g>
+<defs>
+<filter id="filter0_f_0_113" x="0" y="0" width="100.2" height="95.2" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="18.05" result="effect1_foregroundBlur_0_113"/>
+</filter>
+<linearGradient id="paint0_linear_0_113" x1="41.5425" y1="44.1261" x2="52.3224" y2="60.1563" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FEDE00"/>
+<stop offset="1" stop-color="#FFD000"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_113" x1="42.4875" y1="44.9268" x2="57.9027" y2="60.3408" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FEDE00"/>
+<stop offset="1" stop-color="#FFD000"/>
+</linearGradient>
+<linearGradient id="paint2_linear_0_113" x1="49.428" y1="41.1837" x2="51.633" y2="56.1077" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E5A505"/>
+<stop offset="0.116" stop-color="#EAA804"/>
+<stop offset="0.595" stop-color="#F8B301"/>
+<stop offset="1" stop-color="#FDB700"/>
+</linearGradient>
+<linearGradient id="paint3_linear_0_113" x1="42.4688" y1="35.6339" x2="57.898" y2="51.063" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FEDE00"/>
+<stop offset="1" stop-color="#FFD000"/>
+</linearGradient>
+</defs>
+</svg>

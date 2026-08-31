@@ -1,0 +1,224 @@
+/* Обёртка карточки — позволяет бейджу выступать за края */
+.card-wrap { position: relative; width: 270px; height: 290px; }
+
+/* --- Игровая карточка: аватар игры над карточкой --- */
+/* Иконка приложения над карточкой — 40px (Figma 283-5342), центр на
+   верхней грани карточки, белое кольцо 0.8px */
+.card-badge {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 27px;
+  z-index: 5;
+  object-fit: cover;
+  box-shadow: 0 0 0 0.8px rgba(255, 255, 255, 0.2), 0 8px 18px -6px rgba(0, 0, 0, 0.6);
+}
+
+/* --- Карточка стрика --- */
+/* Ряд дней (Figma 291-7600): три колонки, gap 16, бокс монеты 60, gap 8 */
+.days-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+}
+.days-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 60px;
+}
+/* Бокс монеты 60×60. Монеты всё время рисует Lottie — подмены нет.
+   Свечение включается вместе со стартом падения, искры всплывают по ходу. */
+.days-coin {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  overflow: visible;
+}
+.days-coin > div { position: absolute; inset: 0; }
+
+/* Тёплое свечение под стопкой (Figma «Ellipse 6», #FDD801 с блюром).
+   Появляется в тот же кадр, когда стопка начинает падать. */
+.days-coin-glow {
+  position: absolute;
+  left: 50%;
+  top: 73%;                 /* общая «земля» стопок (y=140 холста → 43.8px из 60) */
+  width: 56px;
+  height: 34px;
+  transform: translate(-50%, -50%) scale(0.7);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(253, 216, 1, 0.62), rgba(253, 216, 1, 0) 70%);
+  filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 260ms var(--ease-out),
+    transform 420ms var(--ease-out);
+}
+.days-coin.is-on .days-coin-glow {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Искры — четырёхлучевые звёзды, всплывают по ходу падения со сдвигом */
+.days-sparks { position: absolute; inset: 0; pointer-events: none; }
+.days-sparks i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--ss);
+  height: var(--ss);
+  margin: calc(var(--ss) / -2) 0 0 calc(var(--ss) / -2);
+  background: #ffe27a;
+  clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+  filter: drop-shadow(0 0 3px rgba(255, 215, 90, 0.9));
+  opacity: 0;
+  transform: translate(var(--sx), var(--sy)) scale(0.4);
+}
+.days-coin.is-on .days-sparks i {
+  animation:
+    spark-in 260ms var(--ease-out) var(--sd) both,
+    spark-idle 3.2s ease-in-out calc(var(--sd) + 260ms) infinite;
+}
+@keyframes spark-in {
+  from { opacity: 0; transform: translate(var(--sx), var(--sy)) scale(0.4); }
+  to   { opacity: 1; transform: translate(var(--sx), var(--sy)) scale(1); }
+}
+/* очень мягкое «дыхание», чтобы искры жили, но не мельтешили */
+@keyframes spark-idle {
+  0%, 100% { opacity: 1;    transform: translate(var(--sx), var(--sy)) scale(1); }
+  50%      { opacity: 0.72; transform: translate(var(--sx), var(--sy)) scale(0.9); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .days-coin-glow { transition: opacity 200ms ease; transform: translate(-50%, -50%) scale(1); }
+  .days-coin.is-on .days-coin-glow { transform: translate(-50%, -50%) scale(1); }
+  .days-coin.is-on .days-sparks i {
+    animation: spark-in 200ms ease var(--sd) both;   /* без бесконечного дыхания */
+  }
+}
+
+.days-label {
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0.28px;
+  color: #fff;
+  opacity: 0.45;
+  transition: opacity 0.4s var(--ease-out);
+}
+.days-label.on { opacity: 1; }
+
+/* --- Карточка вывода: три карты веером --- */
+.pay-fan {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* В Figma gap 7 стоит между ПОВЁРНУТЫМИ боксами (76.03 / 77.13 при карте
+     69.65), т.е. фактический зазор между картами ≈14px. */
+  gap: 14px;
+  transform: rotate(1.81deg);      /* вся группа наклонена (Figma 291:7012) */
+}
+.pay-fan-card {
+  width: 69.65px;                  /* Figma 291:7013 — ландшафтные карты */
+  height: 63.55px;
+  flex: 0 0 auto;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(16px) rotate(0deg) scale(0.9);
+  box-shadow: 0 10px 22px -8px rgba(0, 0, 0, 0.65);
+}
+.pay-fan-card.is-in {
+  animation: pay-fan-in 0.55s var(--ease-out) both;
+  animation-delay: var(--d, 0s);
+}
+@keyframes pay-fan-in {
+  from { opacity: 0; transform: translateY(16px) rotate(0deg) scale(0.9); }
+  to   { opacity: 1; transform: translateY(0) rotate(var(--rot)) scale(1); }
+}
+.pay-fan-card img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: inherit; }
+
+/* --- Карточка подарка --- */
+.gift-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+/* Звёздное поле под multiply (Figma image 12: lighten, 54%).
+   В макете картинка 287×271 при карточке 270×290 — не достаёт до низа.
+   У неё непрозрачный тёмно-серый фон (не чистый чёрный), поэтому при
+   lighten её край давал видимый шов. Растягиваем на всю карточку —
+   подсветка равномерная, шва нет. */
+.gift-stars {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: lighten;
+  opacity: 0.54;
+  pointer-events: none;
+}
+.gift-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 227px;                    /* Figma Ellipse 3 */
+  height: 227px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 182, 84, 0.34) 0%,
+    rgba(222, 120, 230, 0.26) 36%,
+    rgba(150, 112, 240, 0.16) 58%,
+    transparent 74%
+  );
+  filter: blur(12px);
+  pointer-events: none;
+  animation: gift-glow-pulse 5s ease-in-out infinite;
+}
+@keyframes gift-glow-pulse {
+  0%, 100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+}
+.gift-pop { animation: gift-pop 0.7s var(--ease-spring) both; animation-delay: 0.15s; }
+@keyframes gift-pop {
+  0% { opacity: 0; transform: scale(0.4); }
+  100% { opacity: 1; transform: scale(1); }
+}
+/* Медаль — прозрачный PNG, поэтому прямоугольный блик тилта был бы виден
+   рамкой. Маскируем его мягким кругом по форме самой медали. */
+.gift-tilt .t-tilt-card { border-radius: 24px; }
+.gift-tilt .t-tilt-glare {
+  -webkit-mask-image: radial-gradient(circle at 50% 44%, #000 34%, rgba(0,0,0,0.35) 52%, transparent 66%);
+  mask-image: radial-gradient(circle at 50% 44%, #000 34%, rgba(0,0,0,0.35) 52%, transparent 66%);
+}
+.gift-medal {
+  display: block;
+  width: 222px;                    /* Figma 291:8002 — было мелко (150) */
+  height: auto;
+  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.5));
+}
+.gift-confetti {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gift-glow, .gift-pop { animation: none; }
+  .pay-fan-card.is-in { animation-duration: 0.01ms; }
+}

@@ -1,0 +1,22 @@
+.trust {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  padding: 4px 4px;
+}
+.trust-col { display: flex; flex-direction: column; gap: 4px; }
+.trust-col-l { align-items: flex-start; }
+/* «Rated 4.7/5» над звёздами — по центру (Figma 250:11031, items-center) */
+.trust-col-r { align-items: center; }
+
+.tp-logo { height: 18px; width: auto; }
+.tp-stars { height: 21px; width: auto; }
+.trust-cap {
+  font-size: 12px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 0.24px;
+  white-space: nowrap;
+}

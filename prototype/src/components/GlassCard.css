@@ -1,0 +1,93 @@
+.glass-card {
+  position: relative;
+  width: 270px;
+  height: 290px;
+  flex: 0 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  isolation: isolate;                 /* multiply не вылезает за карточку */
+  background: rgba(14, 15, 26, 0.62);
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 18px 40px -18px rgba(0, 0, 0, 0.75);
+}
+
+/* цветная заливка + приглушающий multiply — «стекло» как в Figma */
+.glass-card-tint { position: absolute; inset: 0; }
+.glass-card-mult {
+  position: absolute;
+  inset: 0;
+  background: #d9d9d9;
+  mix-blend-mode: multiply;
+  opacity: 0.8;
+}
+
+/* большие мягкие сферы по углам (Ellipse 4 / 5) */
+.glass-card-blob {
+  position: absolute;
+  width: 258px;
+  height: 258px;
+  border-radius: 50%;
+  filter: blur(44px);
+  opacity: 0.34;
+  pointer-events: none;
+}
+.glass-card-blob--tr { right: -124px; top: -101px; }
+.glass-card-blob--bl { left: -186px; bottom: -100px; }
+
+/* лёгкий noise поверх стекла */
+.glass-card-noise {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.32;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='0.55'/></svg>");
+  background-size: 140px 140px;
+}
+
+/* контент */
+.glass-card-body {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+}
+.glass-card-content {
+  flex: 1 1 auto;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+}
+.glass-card-top,
+.glass-card-bottom {
+  flex: 0 0 auto;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 21px;
+  letter-spacing: 0.28px;
+  color: #fff;
+  text-align: center;
+}
+
+/* Карточка подарка: контент прижат к верху, медаль крупная (Figma 291-8284) */
+.glass-card--gift .glass-card-body { padding: 14px 16px 24px; }
+.glass-card--gift .glass-card-content { align-items: start; }
+
+/* Игровая карточка: доска занимает свою высоту, а подпись центрируется
+   ровно в остатке между доской и нижней гранью карточки. */
+.glass-card--game .glass-card-body { padding-bottom: 0; }
+.glass-card--game .glass-card-content { flex: 0 0 auto; }
+.glass-card--game .glass-card-bottom {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

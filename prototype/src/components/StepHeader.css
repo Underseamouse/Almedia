@@ -1,0 +1,54 @@
+/* Хедер: px-24 py-24, gap-24, высота блока 80 (60→140), как логотип-блок */
+.stephead {
+  height: 80px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 24px;
+  position: relative;
+  z-index: 5;
+}
+.stephead-back {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+}
+.stephead-back:active { transform: scale(0.92); }
+
+.stephead-track {
+  flex: 1 1 auto;
+  height: 8px;
+  border-radius: 999px;
+  background: #33334d;                 /* primary/gray-blue/300 */
+  overflow: hidden;
+}
+.stephead-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--action-primary);
+  /* видимое зелёное свечение (Figma) */
+  box-shadow: 0 0 12px 0 rgba(1, 214, 118, 0.75), 0 0 5px 0 rgba(1, 214, 118, 0.9);
+  /* Осознанно анимируем width, а не scaleX: у заливки скруглённый торец и
+     свечение — scaleX их растянул бы. Переход случается 4 раза за весь флоу
+     на одном 8px-элементе, поэтому цена лейаута здесь пренебрежима. */
+  transition: width 0.6s var(--ease-out);
+}
+
+/* «Skip» справа от прогресс-бара (Figma 283-4657) */
+.stephead-skip {
+  flex: 0 0 auto;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.24px;
+  color: var(--text-primary);
+  opacity: 0.9;
+  padding: 6px 2px;
+  transition: opacity 0.15s ease;
+}
+.stephead-skip:hover { opacity: 1; }

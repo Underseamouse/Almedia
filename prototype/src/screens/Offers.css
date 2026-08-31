@@ -1,0 +1,176 @@
+.offers {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  gap: 8px;                         /* Figma 293:11389 — зазор между лого и контентом */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;            /* индикатор прокрутки не показываем */
+  -ms-overflow-style: none;
+}
+.offers::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
+/* Лого: py-16 px-10 (Figma 293:8888) */
+.offers-logo {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  padding: 16px 10px;
+}
+
+/* Контент: px-24, pt-24, pb-40, gap-24 (Figma 293:8562) */
+.offers-body {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 24px 40px;
+}
+
+.offers-copy { display: flex; flex-direction: column; gap: 10px; }
+.offers-title {
+  font-size: 24px;
+  font-weight: 500;               /* Heading sm/Medium */
+  line-height: 36px;
+  letter-spacing: 0.48px;
+  color: var(--text-primary);
+}
+.offers-sub {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.32px;
+  color: var(--text-secondary);
+}
+
+/* --- Карточка оффера (Figma 293:8635 / 293:8875) --- */
+.offer-card {
+  position: relative;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Герой-картинка 354×130 — внутри неё живёт canvas img-fx */
+.offer-hero {
+  position: relative;
+  width: 100%;
+  height: 130px;
+  overflow: hidden;
+  background: #0f1020;
+  flex: 0 0 auto;
+}
+/* обёртка ImageGeneration должна занимать весь блок */
+.offer-hero > * { position: absolute; inset: 0; width: 100%; height: 100%; }
+.offer-hero canvas { display: block; width: 100% !important; height: 100% !important; }
+.offer-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Строка с названием и ценой: px-16 pt-12 pb-8 */
+.offer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px 8px;
+}
+.offer-row--locked { padding: 12px 16px; }
+
+.offer-col { display: flex; flex-direction: column; justify-content: center; min-width: 0; flex: 1 1 0; }
+.offer-col--right { align-items: flex-end; flex: 0 0 auto; }
+
+.offer-name {
+  font-size: 18px;
+  font-weight: 600;               /* Text xl/SemiBold */
+  line-height: 27px;
+  letter-spacing: 0.36px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.offer-name--wrap { white-space: normal; }
+.offer-meta {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.24px;
+  color: var(--text-secondary);
+}
+.offer-price {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.32px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.offer-tag {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: 0.24px;
+  color: var(--warning-500);
+  white-space: nowrap;
+}
+
+/* Кнопки: pt-8 pb-16 px-16 (первая) / pt-12 pb-16 (вторая) */
+.offer-cta { padding: 8px 16px 16px; }
+.offer-cta--ghost { padding: 12px 16px 16px; }
+
+.offer-btn {
+  width: 100%;
+  height: 44px;
+  border-radius: var(--r-02);
+  background: var(--action-primary);
+  border-bottom: 4px solid var(--primary-800);
+  color: var(--text-on-primary);
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.32px;
+  box-shadow: 0 8px 12px rgba(1, 214, 118, 0.3);
+  transition: filter 0.15s ease;
+}
+.offer-btn:hover { filter: brightness(1.04); }
+
+.offer-btn-ghost {
+  width: 100%;
+  height: 38px;
+  border-radius: var(--r-02);
+  background: transparent;
+  color: var(--action-primary);
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.28px;
+  transition: opacity 0.15s ease;
+}
+.offer-btn-ghost:hover { opacity: 0.8; }
+
+/* Свечение border-beam должно лежать ПОВЕРХ содержимого карточки
+   (картинка + кнопка), иначе тонет в ярком арте оффера.
+   Селекторы библиотеки — [data-beam="…"][data-active]::before (0,2,1),
+   поэтому берём на один атрибут больше, иначе проигрываем по порядку. */
+.offers [data-beam][data-active]::before,
+.offers [data-beam][data-fading]::before,
+.offers [data-beam][data-active]::after,
+.offers [data-beam][data-fading]::after {
+  z-index: 6;
+  pointer-events: none;
+  filter: saturate(1.5) brightness(1.35);
+}
+
+/* Разблокированные офферы проявляются со сдвигом */
+.offer-card--reveal { animation: offer-reveal 0.5s var(--ease-out) both; animation-delay: var(--d, 0s); }
+@keyframes offer-reveal {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .offer-card--reveal { animation-duration: 0.01ms; }
+}

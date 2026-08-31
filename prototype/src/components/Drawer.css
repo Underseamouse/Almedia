@@ -1,0 +1,57 @@
+.drawer { position: absolute; inset: 0; z-index: 40; }
+
+/* Затемнение над шторкой (Figma 293:11518) */
+.drawer-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(3.35px);
+  -webkit-backdrop-filter: blur(3.35px);
+  animation: scrim-in 0.34s var(--ease-out) both;
+}
+@keyframes scrim-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* Лист шторки — выезжает снизу */
+.drawer-sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #141a26;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px 24px 0 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+  animation: sheet-in 0.42s var(--ease-drawer) both;
+}
+@keyframes sheet-in {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+/* Закрытие — уезжает обратно вниз тем же путём */
+.drawer.is-closing .drawer-scrim { animation: scrim-out 0.3s var(--ease-out) both; }
+@keyframes scrim-out { to { opacity: 0; } }
+.drawer.is-closing .drawer-sheet { animation: sheet-out 0.38s var(--ease-drawer) both; }
+@keyframes sheet-out { to { transform: translateY(100%); } }
+
+.drawer-close {
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  width: 24px;
+  height: 24px;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+}
+.drawer-close:active { transform: scale(0.92); }
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer-scrim, .drawer-sheet,
+  .drawer.is-closing .drawer-scrim, .drawer.is-closing .drawer-sheet {
+    animation-duration: 0.01ms;
+  }
+}

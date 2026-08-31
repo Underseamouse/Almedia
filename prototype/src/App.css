@@ -1,0 +1,198 @@
+/* --- Общий шелл: постоянная обвязка + сменная середина --- */
+.shell {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  /* clip, а не hidden: hidden делает .shell прокручиваемым контейнером (свечение
+     торчит далеко за кадр, scrollHeight 1271 против 874), и любой focus или
+     scrollIntoView внутри сдвигал весь кадр. clip прокрутку вообще не заводит. */
+  overflow: clip;
+}
+/* Ambient glow из Figma («12 1»): зелёный лайт-лик, color-dodge 20% */
+.shell-glow {
+  position: absolute;
+  left: -410px;
+  top: -212px;
+  width: 1206px;
+  height: 1281px;
+  background-size: cover;
+  background-position: center;
+  transform: rotate(-120deg);
+  transform-origin: center;
+  mix-blend-mode: color-dodge;
+  opacity: 0.2;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.shell-logo {
+  flex: 0 0 auto;
+  height: 80px;                 /* Figma Frame16: y60→140, лого по центру */
+  display: grid;
+  place-items: center;
+  position: relative;
+  z-index: 5;
+}
+
+.shell-middle {
+  flex: 1 1 auto;
+  position: relative;
+  min-height: 0;
+  z-index: 1;
+}
+.screen-layer {
+  position: absolute;
+  inset: 0;
+  will-change: opacity;
+}
+/* Появление новой середины (старая размонтируется мгновенно) */
+.screen-enter { animation: screen-enter 0.3s var(--ease-out) both; }
+@keyframes screen-enter { from { opacity: 0; } to { opacity: 1; } }
+
+/*
+  CTA-блок (Figma 250-11070): строка Log in сверху, кнопка снизу, gap 12,
+  px 24. Кнопка привязана к низу — padding-bottom 32 + высота 48 всегда дают
+  top=756 (одинаково на всех экранах). Строка Log in появляется НАД кнопкой
+  только на онбординге, не сдвигая её.
+*/
+.shell-cta {
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  padding: 48px 24px 32px;
+}
+/* Онбординг: зазор текст→CTA = 24 (Figma 120-4112, trust→CTA), не 48 как
+   в игре (sub→button). Кнопка остаётся на 756 (её держит padding-bottom). */
+.shell-cta--ob { padding-top: 24px; }
+
+/* --- Первичная кнопка (общая для обоих экранов) --- */
+.btn-primary {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  border-radius: var(--r-02);
+  background: var(--action-primary);
+  border-bottom: 4px solid var(--primary-800);
+  color: var(--text-on-primary);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.32px;
+  box-shadow: 0 8px 18px -2px rgba(1,214,118,0.35);
+  transition: filter 0.15s ease;
+  display: grid;
+  place-items: center;
+}
+.btn-primary:hover { filter: brightness(1.04); }
+/* подарок: мягкое пульсирующее свечение — подталкивает нажать */
+.btn-glow { animation: btn-glow-pulse 2.2s ease-in-out infinite; }
+@keyframes btn-glow-pulse {
+  0%, 100% { box-shadow: 0 8px 18px -2px rgba(1,214,118,0.35), 0 0 0 rgba(1,214,118,0); }
+  50% { box-shadow: 0 8px 20px -2px rgba(1,214,118,0.5), 0 0 22px 0 rgba(1,214,118,0.45); }
+}
+@media (prefers-reduced-motion: reduce) { .btn-glow { animation: none; } }
+.btn-label {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  height: 24px;
+}
+.btn-label > span { grid-area: 1 / 1; white-space: nowrap; }
+.btn-label-anim { animation: label-pop 0.24s var(--ease-out) both; }
+@keyframes label-pop {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.shell-login {
+  height: 44px;
+  padding-top: 4px;               /* Figma 250:11072 pt-1 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: 0.28px;
+  color: var(--text-secondary);
+}
+.shell-login span { color: var(--action-primary); font-weight: 600; }
+.shell-login-anim { animation: shell-login-in 0.3s var(--ease-out) both; animation-delay: 0.1s; }
+@keyframes shell-login-in { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .screen-enter, .btn-label-anim, .shell-login-anim { animation-duration: 0.01ms; }
+}
+
+/* ---------- Экран карточек (новый дизайн) ---------- */
+
+/* Кошелёк-чип под хедером (Figma 283-4660: pb-8, свечение под чипом) */
+.shell-wallet {
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 6;
+  display: grid;
+  place-items: center;
+  padding-bottom: 8px;
+}
+
+.cards-screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Figma: gap 40 от чипа до карточек. +10px — чтобы бейдж игры
+     не наезжал на строку «+€X», которой в макете нет. */
+  padding-top: 50px;
+}
+
+.step-spacer { flex: 1 1 auto; min-height: 16px; }
+
+.step-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 24px;
+  width: 100%;
+  animation: step-copy-in 0.42s var(--ease-out) both;
+}
+@keyframes step-copy-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+.step-title {
+  font-size: 24px;
+  font-weight: 500;               /* Heading sm/Medium */
+  line-height: 36px;
+  letter-spacing: 0.48px;
+  color: var(--text-primary);
+}
+.step-sub {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.32px;
+  color: var(--text-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step-copy { animation-duration: 0.01ms; }
+}
+
+/* «Log in» на интро — уводит сразу на экран логина, минуя онбординг */
+.shell-login-link {
+  color: var(--action-primary);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  padding: 0;
+  background: none;
+  transition: opacity 0.15s ease;
+}
+.shell-login-link:hover { opacity: 0.8; }

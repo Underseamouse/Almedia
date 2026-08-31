@@ -1,0 +1,29 @@
+.coins-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+.coin {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;   /* центрировать по координате */
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, var(--gold-hi), var(--gold) 52%, var(--gold-lo));
+  box-shadow:
+    0 0 12px rgba(245,178,26,0.75),
+    inset 0 1px 1px rgba(255,255,255,0.7),
+    inset 0 -2px 3px rgba(150,90,0,0.5);
+  display: grid;
+  place-items: center;
+  will-change: transform;
+}
+.coin-face {
+  font-size: 12px;
+  font-weight: 800;
+  color: #8a5600;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.35);
+}

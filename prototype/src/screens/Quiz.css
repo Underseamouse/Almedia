@@ -1,0 +1,205 @@
+.quiz {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Хедер шторки: стрелка/крестик + прогресс */
+.quiz-head {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 24px;
+}
+.quiz-back { width: 24px; height: 24px; flex: 0 0 auto; display: grid; place-items: center; }
+.quiz-back:active { transform: scale(0.92); }
+.quiz-track {
+  flex: 1 1 auto;
+  height: 8px;
+  border-radius: 999px;
+  background: #33334d;
+  overflow: hidden;
+}
+.quiz-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--action-primary);
+  box-shadow: 0 0 12px 0 rgba(1, 214, 118, 0.75), 0 0 5px 0 rgba(1, 214, 118, 0.9);
+  transition: width 0.45s var(--ease-out);
+}
+
+/* Заголовок — отдельный блок p-24 (Figma 293:10202, h=84 при одной строке) */
+.quiz-copy {
+  flex: 0 0 auto;
+  padding: 24px;
+  animation: quiz-in 0.34s var(--ease-out) both;
+}
+
+/* Тело вопроса: px-24 pb-16, всё внутри через gap-24 (Figma 293:10204).
+   Первым идёт разделитель, поэтому вертикальных отступов сверху нет. */
+.quiz-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0 24px 16px;
+  animation: quiz-in 0.34s var(--ease-out) both;
+}
+@keyframes quiz-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.quiz-eyebrow {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 36px;
+  letter-spacing: 0.48px;
+  color: var(--text-secondary);
+}
+.quiz-title {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 36px;
+  letter-spacing: 0.48px;
+  color: var(--text-primary);
+}
+.quiz-title--statement { font-weight: 500; }
+
+.quiz-divider {
+  flex: 0 0 auto;
+  height: 1px;
+  background: var(--surface-input);   /* #2f3043 @ 50% */
+  opacity: 0.5;
+}
+.quiz-hint {
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: 0.28px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* Поле ввода имени — в обводке border-beam (sunset, strength 1) */
+.quiz-input-beam { width: 100%; border-radius: 12px; }
+.quiz-input {
+  display: block;
+  width: 100%;
+  height: 58px;
+  padding: 0 16px;
+  border-radius: 12px;
+  background: var(--surface-container);
+  border: 1px solid var(--border-default, #33334d);
+  color: #fff;
+  font-family: var(--font);
+  font-size: 16px;
+  letter-spacing: 0.32px;
+  outline: none;
+  transition: box-shadow 0.15s ease;
+}
+.quiz-input::placeholder { color: #a9a9ca; }
+.quiz-input:focus { border-color: #4a4a6b; }
+
+/* Луч должен лежать поверх поля, иначе тонет под его фоном.
+   Селекторы библиотеки — [data-beam="…"][data-active]::before (0,2,1),
+   поэтому берём на один атрибут больше. */
+.quiz [data-beam][data-active]::before,
+.quiz [data-beam][data-fading]::before,
+.quiz [data-beam][data-active]::after,
+.quiz [data-beam][data-fading]::after {
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Варианты ответа */
+.quiz-options { display: grid; gap: 16px; }
+.quiz-options--2 { grid-template-columns: repeat(2, 1fr); }
+.quiz-options--3 { grid-template-columns: repeat(3, 1fr); }
+
+.quiz-option {
+  min-height: 80px;
+  padding: 16px;
+  border-radius: var(--r-03);
+  background: var(--surface-container);
+  border: 1px solid #33334d;
+  color: #fff;
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 500;                  /* Text lg/Medium */
+  line-height: 24px;
+  letter-spacing: 0.32px;
+  text-align: center;
+  transition: background 0.16s ease, box-shadow 0.16s ease, transform 0.12s ease;
+}
+.quiz-option:active { transform: scale(0.98); }
+.quiz-option.is-picked {
+  border-color: var(--action-primary);
+  box-shadow: inset 0 0 0 1px var(--action-primary);
+}
+
+.quiz-skip {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 44px;
+  flex: 0 0 auto;
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.32px;
+  color: var(--text-secondary);
+  transition: color 0.15s ease;
+}
+.quiz-skip:hover { color: var(--text-primary); }
+
+.quiz-cta { flex: 0 0 auto; padding: 0 24px 24px; }
+.quiz-cta .btn-primary:disabled { opacity: 0.45; cursor: default; }
+
+/* --- «Analysing your answers» (Figma 293-11151) --- */
+.quiz-analysing {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+  padding: 96px 24px 0;
+}
+.quiz-analysing-text {
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.32px;
+  color: var(--text-primary);
+}
+
+/* Орб: вращающаяся сфера с «меридианами» */
+.orb {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.65);
+  overflow: hidden;
+  animation: orb-spin 1.6s linear infinite;
+}
+.orb::before,
+.orb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.2px rgba(255, 255, 255, 0.45);
+}
+.orb::before { transform: scaleX(0.55); }
+.orb::after  { transform: scaleX(0.18); }
+@keyframes orb-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .quiz-copy, .quiz-body { animation-duration: 0.01ms; }
+  .orb { animation-duration: 4s; }
+}

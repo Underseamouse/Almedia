@@ -1,0 +1,427 @@
+/* ============================================================
+   Freecash — Trust cold-open
+   Values transcribed from the Figma frame (402 x 874).
+   Token names mirror the Figma variable collections.
+   ============================================================ */
+
+:root {
+  /* colour */
+  --surface-background: #141523;
+  --text-primary: #ffffff;
+  --text-secondary: #a9a9ca;
+  --text-on-primary: #141523;
+  --action-primary: #01d676;
+  --primary-main-800: #067544;
+
+  /* spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  --rounded-02: 8px;
+
+  --font: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* the brand's 2% tracking, expressed per size the way Figma reports it */
+  --track: 0.02em;
+
+  /* motion — the reveal is the only thing the eye should notice */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-reveal: 900ms;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: #0b0c14;
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+
+.stage {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+/* ── the frame ─────────────────────────────────────────────── */
+.phone {
+  position: relative;
+  width: 402px;
+  height: 874px;
+  background: var(--surface-background);
+  border-radius: 44px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+@media (max-width: 480px), (max-height: 920px) {
+  .stage { padding: 0; }
+  .phone { width: 100vw; height: 100dvh; border-radius: 0; }
+}
+
+/* ── ambient texture ───────────────────────────────────────── */
+/* In the comp this is a 1012 x 808 bitmap, rotated -120°, 20% opacity,
+   blended color-dodge, hung far off the top-left of the frame. */
+.ambient {
+  position: absolute;
+  left: -410.85px;
+  top: -211.89px;
+  width: 1206.264px;
+  height: 1280.884px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  mix-blend-mode: color-dodge;
+  pointer-events: none;
+  z-index: 0;
+}
+/* rotation wrapper — the bitmap is hung at -120° inside the larger box */
+.ambient__rot { transform: rotate(-120deg); flex: none; }
+/* the visible window onto the texture, at 20% */
+.ambient__win {
+  position: relative;
+  width: 1012.293px;
+  height: 808.425px;
+  opacity: 0.2;
+  overflow: hidden;
+}
+/* the bitmap itself is zoomed and offset inside that window */
+.ambient__win img {
+  position: absolute;
+  left: -32.45%;
+  top: -3.21%;
+  width: 152.4%;
+  height: 119.27%;
+  max-width: none;
+}
+
+/* ── screen 1 · splash ─────────────────────────────────────── */
+.splash {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  /* Leaving is the only motion here: the mark holds its place and the
+     whole layer softens away, so the logo appears to stay put while the
+     content arrives underneath it. */
+  transition: opacity 620ms var(--ease-soft), transform 620ms var(--ease-soft);
+}
+.splash--out {
+  opacity: 0;
+  transform: scale(1.06);
+  pointer-events: none;
+}
+
+.splash__mark { position: relative; width: 100px; height: 84px; }
+.splash__ring {
+  position: absolute;
+  left: 8px; top: 0;
+  width: 84px; height: 84px;
+  transform-origin: 50% 50%;
+  animation: spin 1.15s linear infinite;
+}
+.splash__logo {
+  position: absolute;
+  left: 30px; top: 24px;
+  width: 40px; height: 36px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── screen 2 · content ────────────────────────────────────── */
+.screen {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.screen[hidden] { display: none; }
+
+/* Soft arrival: sections drift up out of a slight blur, staggered.
+   Long and gentle on purpose — this is the hand-off from a loading
+   spinner, and anything snappy would feel like a page change. */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  filter: blur(8px);
+}
+.screen--in .reveal {
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+  transition:
+    opacity   var(--dur-reveal) var(--ease-soft) var(--d, 0ms),
+    transform var(--dur-reveal) var(--ease-soft) var(--d, 0ms),
+    filter    var(--dur-reveal) var(--ease-soft) var(--d, 0ms);
+}
+
+/* ── status bar · 402 x 60 ─────────────────────────────────── */
+.statusbar {
+  flex: none;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.statusbar__side {
+  flex: 1 0 0;
+  min-width: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.statusbar__side--left { padding: 12px 42px; }
+.statusbar__side--right { padding: 12px 28px; gap: 7px; }
+.statusbar__time {
+  font: 590 17px/14px var(--font);
+  letter-spacing: -0.5px;
+}
+.statusbar__loc { width: 14px; height: 14px; }
+.statusbar__ico { width: 18px; height: 14px; }
+.statusbar__island {
+  flex: none;
+  width: 122px;
+  height: 36px;
+  background: #000;
+  border-radius: 32px;
+}
+.statusbar__batt {
+  position: relative;
+  width: 27px; height: 14px;
+  border: 1px solid rgba(255,255,255,.4);
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
+}
+.statusbar__batt::after {
+  content: '';
+  position: absolute;
+  right: -3px; top: 4px;
+  width: 2px; height: 6px;
+  background: rgba(255,255,255,.4);
+  border-radius: 0 2px 2px 0;
+}
+.statusbar__batt b {
+  position: absolute;
+  inset: 1px;
+  background: #f5a623;
+  border-radius: 2px;
+  color: #000;
+  font: 700 11px/12px var(--font);
+  letter-spacing: -0.5px;
+  display: grid;
+  place-items: center;
+}
+
+/* ── section · logo · 402 x 80 ─────────────────────────────── */
+.logo {
+  flex: none;
+  height: 80px;
+  padding: var(--space-6) 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4.571px;
+}
+.logo__mark { width: 36.571px; height: 32px; }
+.logo__word { width: 156.571px; height: 18.286px; }
+
+/* ── section · title · 402 x 154 ───────────────────────────── */
+.title {
+  flex: none;
+  height: 154px;
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+}
+.title__h {
+  margin: 0;
+  width: 327px;
+  font: 500 24px/36px var(--font);
+  letter-spacing: 0.48px;
+  color: var(--text-primary);
+}
+.title__sub {
+  margin: 0;
+  width: 100%;
+  font: 400 16px/24px var(--font);
+  letter-spacing: 0.32px;
+  color: var(--text-secondary);
+}
+
+/* ── section · trust stats · 402 x 288 ─────────────────────── */
+.stats {
+  flex: none;
+  padding: var(--space-6) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+.stat {
+  height: 100px;
+  padding: 0 var(--space-8);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.stat__wreath {
+  flex: none;
+  width: 42px;
+  height: 86px;
+}
+/* One exported half, mirrored for the opposite side. */
+.stat__wreath--l { transform: scaleX(-1); }
+
+.stat__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+.stat__body--tight { gap: var(--space-1); }
+.stat__group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.stat__group--tight { gap: 0; }
+
+.stat__rating {
+  margin: 0;
+  font: 600 20px/30px var(--font);
+  letter-spacing: 0.4px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.stat__stars { width: 108px; height: 22px; }
+.stat__count {
+  margin: 0;
+  font: 500 12px/18px var(--font);
+  letter-spacing: 0.24px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.stat__brand { width: 72px; height: 19px; }
+.stat__big {
+  margin: 0;
+  font: 600 24px/36px var(--font);
+  letter-spacing: 0.48px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.stat__label {
+  margin: 0;
+  font: 400 12px/18px var(--font);
+  letter-spacing: 0.24px;
+  color: var(--text-primary);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.spacer { flex: 1 1 auto; min-height: 0; }
+
+/* ── section · primary action ──────────────────────────────── */
+.action {
+  flex: none;
+  padding: 0 var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* The 4px bottom border is the whole character of this button: it reads
+   as a physical key with a lip, and the press collapses it. */
+.btn {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-5);
+  border: 0;
+  border-bottom: 4px solid var(--primary-main-800);
+  border-radius: var(--rounded-02);
+  background: var(--action-primary);
+  color: var(--text-on-primary);
+  font: 600 16px/24px var(--font);
+  letter-spacing: 0.32px;
+  cursor: pointer;
+  filter: drop-shadow(0 8px 12px rgba(1, 214, 118, 0.3));
+  transition: transform 90ms var(--ease-soft), border-bottom-width 90ms var(--ease-soft);
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:active {
+  transform: translateY(3px);
+  border-bottom-width: 1px;
+}
+.btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+.login {
+  margin: 0;
+  height: 44px;
+  padding-top: var(--space-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: 0.28px;
+  white-space: nowrap;
+}
+.login__q { font-weight: 400; color: var(--text-secondary); }
+.login__a { font-weight: 600; color: var(--action-primary); text-decoration: none; }
+.login__a:hover { text-decoration: underline; }
+
+/* ── home indicator ────────────────────────────────────────── */
+.home {
+  flex: none;
+  height: 38px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 8px;
+}
+.home span {
+  width: 134px;
+  height: 5px;
+  border-radius: 100px;
+  background: #fff;
+}
+
+/* ── replay control (not part of the design) ───────────────── */
+.replay {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  padding: 9px 16px;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 999px;
+  background: rgba(255,255,255,.06);
+  color: #cfd0e0;
+  font: 500 13px/1 var(--font);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+.replay:hover { color: #fff; border-color: rgba(255,255,255,.3); }
+
+@media (prefers-reduced-motion: reduce) {
+  .splash__ring { animation-duration: 2.4s; }
+  .reveal, .screen--in .reveal { transition-duration: 1ms; filter: none; transform: none; }
+  .splash { transition-duration: 1ms; }
+}

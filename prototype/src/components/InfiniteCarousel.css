@@ -1,0 +1,89 @@
+.carousel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  gap: 12px;
+  padding: 0 18px;
+  justify-content: center;
+  overflow: hidden;
+  transform: perspective(1000px) rotateX(6deg) scale(1.04);
+  transform-origin: 50% 20%;
+  mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 62%, transparent 96%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 62%, transparent 96%);
+}
+
+.carousel-col {
+  flex: 1 1 0;
+  max-width: 120px;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  will-change: transform;
+}
+.carousel-track.up { animation: marquee-up linear infinite; }
+.carousel-track.down { animation: marquee-down linear infinite; }
+
+@keyframes marquee-up {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+@keyframes marquee-down {
+  from { transform: translateY(-50%); }
+  to   { transform: translateY(0); }
+}
+
+/* Баннер игры (Figma: rounded 24, image cover) */
+.cover {
+  position: relative;
+  aspect-ratio: 220 / 315;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #1c1d2c;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.06),
+    0 10px 22px -10px rgba(0,0,0,0.65);
+}
+.cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  user-select: none;
+}
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(255,255,255,0.14), transparent 40%);
+  pointer-events: none;
+}
+
+.carousel-fade {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 46%;
+  background: linear-gradient(to top, var(--bg) 24%, rgba(20,21,35,0));
+  pointer-events: none;
+}
+.carousel-fade-top {
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 14%;
+  background: linear-gradient(to bottom, var(--bg), rgba(20,21,35,0));
+  pointer-events: none;
+}
+
+/* Бесконечная прокрутка — единственная непрерывная моторика на интро.
+   Для prefers-reduced-motion останавливаем её: вестибулярно чувствительным
+   пользователям постоянное движение противопоказано, а смысл блока
+   (стена игр) полностью читается статикой. */
+@media (prefers-reduced-motion: reduce) {
+  .carousel-track.up,
+  .carousel-track.down { animation: none; }
+}

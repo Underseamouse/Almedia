@@ -1,0 +1,53 @@
+/* Середина онбординга: карусель (растёт) + текст/Trustpilot снизу */
+.ob-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ob-hero {
+  flex: 1 1 auto;
+  position: relative;
+  min-height: 0;
+  z-index: 1;
+}
+
+/* Reveal на CSS — надёжно доигрывает, финал: opacity 1, transform none */
+.ob-fade { animation: ob-fade 0.8s var(--ease-out) both; }
+.ob-rise { animation: ob-rise 0.7s var(--ease-out) both; animation-delay: var(--d, 0s); }
+@keyframes ob-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ob-rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ob-rise { animation: ob-fade 0.5s ease both; }
+}
+
+.ob-bottom {
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;              /* sub → Trustpilot (Figma 120-4112) */
+  padding: 6px 24px 0;
+}
+
+.ob-copy { display: flex; flex-direction: column; gap: 10px; }
+.ob-title {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 34px;
+  letter-spacing: 0.3px;
+  color: var(--text-primary);
+  max-width: 330px;
+}
+.ob-sub {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.32px;
+  color: var(--text-secondary);
+}

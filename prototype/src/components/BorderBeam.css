@@ -1,0 +1,29 @@
+.border-beam {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: var(--bb-thickness, 1.6px);
+  pointer-events: none;
+  z-index: 3;
+  background: conic-gradient(
+    from var(--bb-angle),
+    transparent 0deg 250deg,
+    var(--bb-color) 320deg,
+    var(--bb-hi) 348deg,
+    transparent 360deg
+  );
+  /* показываем только тонкое кольцо-обводку */
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  /* свечение бегущей дуги прямо по обводке */
+  filter: drop-shadow(0 0 3px var(--bb-hi));
+  animation: bb-spin var(--bb-dur, 4s) linear infinite;
+}
+@keyframes bb-spin {
+  to { --bb-angle: 360deg; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .border-beam { animation: none; opacity: 0.5; }
+}
