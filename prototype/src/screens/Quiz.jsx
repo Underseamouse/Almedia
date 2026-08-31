@@ -96,12 +96,13 @@ export default function Quiz({ step, setStep, name, setName, answers, setAnswers
         {q.kind === 'input' && (
           <BorderBeam
             className="quiz-input-beam"
-            colorVariant="sunset"
+            colorVariant="colorful"
+            size="line"
             strength={1}
-            size="md"
             borderRadius={12}
-            brightness={2.6}
-            saturation={1.6}
+            /* по умолчанию для line — 2.4s; растянуто, чтобы луч
+               не суетился под полем, в которое человек печатает */
+            duration={4.5}
           >
             <input
               ref={inputRef}

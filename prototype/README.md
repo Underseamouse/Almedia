@@ -109,8 +109,13 @@ gap-24), heading in its own block **84** (p-24, 24/500, lh 36), body **464**
 (px-24 pb-16, gap-24; a `#2f3043` 50% divider comes first), CTA at **620**
 (pb-24, 48 button). Options are 352 wide, **h-80**, gap-16, radius 12,
 `surface/container` + `border/default`, text 16/500. "Prefer not to say" is
-h-44, 16/600. The name field is 352×58 inside a `border-beam` outline (sunset,
-`strength={1}`).
+h-44, 16/600. The name field is 352×58 wrapped in `border-beam` with the `line`
+preset and the `colorful` variant: a travelling glow along the bottom edge
+rather than a lit border. Its `duration` is raised from the preset's 2.4s to
+**4.5s** — at the default speed the beam fidgets under a field someone is
+typing into. The library's own z-index layering is left alone: `line` spreads
+travel, breathe, spike and bloom across separate levels, and a blanket
+override would flatten them.
 
 **Next stays disabled until the step is answered**: the input needs non-empty
 text, a question needs a selected option. A `statement` has nothing to answer,

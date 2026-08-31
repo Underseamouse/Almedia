@@ -114,16 +114,12 @@
 .quiz-input::placeholder { color: #a9a9ca; }
 .quiz-input:focus { border-color: #4a4a6b; }
 
-/* Луч должен лежать поверх поля, иначе тонет под его фоном.
-   Селекторы библиотеки — [data-beam="…"][data-active]::before (0,2,1),
-   поэтому берём на один атрибут больше. */
-.quiz [data-beam][data-active]::before,
-.quiz [data-beam][data-fading]::before,
-.quiz [data-beam][data-active]::after,
-.quiz [data-beam][data-fading]::after {
-  z-index: 3;
-  pointer-events: none;
-}
+/* z-index у слоёв луча не трогаем: пресет line раскладывает travel, breathe,
+   spike и bloom по разным уровням (в том числе -1), и общий z-index:3 схлопывал
+   бы их в один. Псевдоэлементы абсолютные, поэтому и так рисуются поверх поля.
+   Единственное, что нужно, — чтобы луч не перехватывал нажатия. */
+.quiz [data-beam]::before,
+.quiz [data-beam]::after { pointer-events: none; }
 
 /* Варианты ответа */
 .quiz-options { display: grid; gap: 16px; }
