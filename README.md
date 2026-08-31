@@ -6,6 +6,9 @@ onboarding flow.
 **→ [Live prototype](https://underseamouse.github.io/Almedia/)** — clickable
 end to end, from the splash screen to the unlocked offers.
 
+**→ [Component storybook](https://underseamouse.github.io/Almedia/storybook/)** —
+foundations, effects and components in isolation, with computed contrast.
+
 > Study work. The Freecash brand, logos and game artwork belong to their
 > respective owners and appear here only to present the design work,
 > with no commercial purpose.
@@ -20,7 +23,7 @@ end to end, from the splash screen to the unlocked offers.
 | [screens.md](screens.md) | Screen-by-screen breakdown — composition, hierarchy, contrast |
 | [audit.md](audit.md) | Audit: measurements against the mockups, discrepancies found |
 | [prototype/](prototype/) | The live prototype — React + Vite sources, plus the reasoning behind the technical calls |
-| [storybook/](storybook/) | Components in isolation |
+| [storybook/](storybook/) | Components in isolation — [published](https://underseamouse.github.io/Almedia/storybook/) |
 | [screen/](screen/) | Early static mockup of the first screen |
 
 ## The prototype
@@ -38,11 +41,15 @@ file also covers the animation decisions and three traps worth hitting once
 rather than three times.
 
 Published through GitHub Pages from `docs/` (Settings → Pages → Deploy from a
-branch → `main` / `/docs`). To refresh it:
+branch → `main` / `/docs`). Two things are served from there:
 
 ```bash
-cd prototype && npm run deploy
+cd prototype  && npm run deploy   # → docs/            the prototype
+cd storybook  && npm run deploy   # → docs/storybook/  the component library
 ```
+
+The two are independent: rebuilding the prototype leaves `docs/storybook`
+alone, and vice versa.
 
 ## Principle
 

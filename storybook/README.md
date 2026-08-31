@@ -1,5 +1,7 @@
 # Freecash — component storybook
 
+**→ [Published storybook](https://underseamouse.github.io/Almedia/storybook/)**
+
 A living library of the onboarding components. Built from the
 [“First screens”](https://www.figma.com/design/fJgAaPHYv49oF8MK6uMmcU/Untitled?node-id=155-4760)
 mockup and the tokens in [../design-system.md](../design-system.md).
@@ -21,6 +23,13 @@ A static build (the folder opens from disk or uploads anywhere):
 
 ```bash
 npm run build-storybook
+```
+
+Or build straight into the published folder, which GitHub Pages serves at
+`/Almedia/storybook/`:
+
+```bash
+npm run deploy
 ```
 
 ## What is inside
